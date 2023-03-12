@@ -1,0 +1,13 @@
+---
+- name: "Install packages"
+  hosts: virtualbox
+  become: true
+  tasks:
+
+  - name: "Install apps"
+    apt:
+      name:
+        - vim
+        - mc
+      state: present
+

@@ -1,0 +1,24 @@
+---
+- name: "Change /etc/motd"
+  hosts: virtualbox
+  become: true
+  gather_facts: true
+  vars:
+      motd_text: "Welcome to ZVER BBS. Come as you are!"
+  tasks:
+
+  - name: "change motd"
+    ansible.builtin.shell: |
+      cat /dev/null > /etc/motd
+      echo {{ motd_text }} IP: " {{ ansible_facts.all_ipv4_addresses[0] }} Linux version: {{ ansible_facts.distribution }} {{ ansible_facts.distribution_version }} hostname: {{ ansible_facts.hostname }} "> /etc/motd
+      cat /etc/motd
+      exit 0
+    register: output
+  - debug:
+      var: output.stdout_lines
+
+
+      
+
+            
+

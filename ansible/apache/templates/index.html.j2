@@ -1,0 +1,11 @@
+<H1>Welcome to {{ ansible_hostname }}<H1>
+<br><br>
+<H3>
+-The ipv4 address is {{ ansible_default_ipv4['address' ]}}<br>
+-Linux architecture {{ ansible_architecture }}<br>
+-The CPU is {{ ansible_processor }}<br>
+-The number of CPU cores is {{ ansible_processor_cores }}<br>ansible_processor_cores
+-The current memory usage is {{ ansible_memory_mb['real']['used']}}mb out of {{ ansible_memory_mb['real']['total']}}mb<br>
+-The Server has total disk space: {{ ansible_mounts[0]['size_total'] }}<br>
+-The Server has total disk space: {{ ansible_version ['full'] }}<br>
+</H3>

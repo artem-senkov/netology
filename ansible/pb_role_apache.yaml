@@ -1,0 +1,9 @@
+---
+- name: "Install apache"
+  hosts: virtualbox
+  become: true
+  gather_facts: true
+  roles:
+        -apache
+
+ 

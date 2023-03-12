@@ -1,0 +1,33 @@
+---
+- name: "Install apache"
+  apt:
+    name:
+      - apache2
+    state: present
+
+- name: push index.html template
+  template:
+    src: ~/ansible/apache/templates/index.html.j2
+    dest: /var/www/html/index.html
+
+
+- name: "Start apache2"
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+
+- name: Wait for port 80 to become open on the host, don't start checking for 10 seconds
+  ansible.builtin.wait_for:
+    port: 80
+    delay: 10
+    timeout: 30
+    msg: Connection to port 80 failed
+
+- name: Check that a page returns a status 200 and fail if the word Welcome is not in the page contents
+  ansible.builtin.uri:
+    url: http://localhost
+    return_content: true
+  register: this
+  failed_when: "'Welcome' not in this.content"
+

@@ -1,0 +1,33 @@
+---
+- name: "Get file unzip to folder"
+  hosts: virtualbox
+  become: true
+  tasks:
+
+  - name: "Create a dir if it does not exist"
+    command: "mkdir /tmp/testdir"
+    args:
+        creates: "/tmp/testdir"
+    register: createif
+
+  - name: "Display the file to make sure its created"
+    command: "ls /tmp/testdir"
+    register: displayif
+    when: createif is changed
+
+  - debug: var=displayif.stdout
+
+  - name: "wget zip file"
+    command: "wget https://www.7-zip.org/a/7z2201-linux-x64.tar.xz"
+    args:
+        chdir: "/tmp/testdir"
+  
+  - name: "extract zip file"
+    command: "tar -xf /tmp/testdir/7z2201-linux-x64.tar.xz"
+    args:
+        chdir: "/tmp/testdir"
+
+      
+
+            
+

@@ -1,0 +1,25 @@
+---
+- name: "Install tuned"
+  hosts: virtualbox
+  become: true
+  gather_facts: true
+  tasks:
+
+  - name: "Install tuned"
+    apt:
+      name:
+        - tuned
+      state: present
+
+  - name: "Start tuned"
+    service:
+      name: tuned
+      state: started
+      enabled: yes
+
+  - name: "Show info"
+    debug:
+      msg: "Current IP {{ ansible_facts.all_ipv4_adresses[0] }}"
+
+
+      

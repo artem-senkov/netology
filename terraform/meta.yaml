@@ -1,0 +1,10 @@
+#cloud-config
+users:
+  - name: artem
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDgq6ebV25GqrmrjBavA6662Bq0GPogqPFCVHdtir/DThAv5JcScojLb7OBsqMrzogTVuHE1hkau4fYFWRnRt05IYrG9cw14BL4Qp0l+BPpkhQG8DgcmuDUK5Wf3ywO6donlBeKS4vNWta2Qx6qHc1E6lhd1hUZQ7AQ4iB6/BbSPHsMspIW63JTeW9ZFMWDktoQbFIPj0Qq6JmHCo8mZ2cS0THkAtieQeXt9SBkj1ylCZxpA0GPY/b2UrOD5foyUlqn5ktqWa71oUCgfK/HzvUwI0fsNsjnhbgnEnFjNw02C8KF3RpntVOtL8HWdcuV8fW1yBcH+AJkHMq0Vm8OaTgwqNMradihWc7hmML/HoyN4fBNQ4npgwA86e8G5/wEZgCBaZguh0GDi+2bDyH2g6CdZMeAxh1W8AyUUENTC6BuOU0kg9YMtSfgUQZQdCURwP+JF5qcfzr1DDgCfwrHqFfnoUWASP02W7lg3oSaEy2njzQrBeyygLLVavRTwSTPmlU= artem@LENOVO-LAPTOP
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDC7KtRpSDHuLQmLvW1v/Wnrf0ojRBYkJQeplYJKHZ+y artem@LENOVO-LAPTOP
+

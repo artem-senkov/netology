@@ -1,0 +1,14 @@
+---
+- name: "Install nginx"
+  hosts: yandexcloud1
+  become: true
+  gather_facts: true
+  roles:
+  - nginx
+
+- name: "Install postgre"
+  hosts: yandexcloud2
+  become: true
+  gather_facts: true
+  roles:
+  - postgre

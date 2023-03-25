@@ -15,7 +15,7 @@ provider "yandex" {
 
 
 resource "yandex_compute_instance" "vm-1" {
-  name = "debian11"
+  name = "nginx1"
 
   resources {
     cores  = 2
@@ -32,13 +32,42 @@ resource "yandex_compute_instance" "vm-1" {
     subnet_id = yandex_vpc_subnet.subnet-1.id
     nat       = true
   }
-  
+
   metadata = {
-    user-data = "${file("c:/terraform/meta.yaml")}"
+    user-data = "${file("meta.yaml")}"
   }
 
 
 }
+
+
+resource "yandex_compute_instance" "vm-2" {
+  name = "postgre1"
+
+  resources {
+    cores  = 2
+    memory = 4
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = "fd87kbts7j40q5b9rpjr"
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.subnet-1.id
+    nat       = true
+  }
+
+  metadata = {
+    user-data = "${file("meta.yaml")}"
+  }
+
+
+}
+
+
 resource "yandex_vpc_network" "network-1" {
   name = "network1"
 }
@@ -55,4 +84,11 @@ output "internal_ip_address_vm_1" {
 }
 output "external_ip_address_vm_1" {
   value = yandex_compute_instance.vm-1.network_interface.0.nat_ip_address
+}
+
+output "internal_ip_address_vm_2" {
+  value = yandex_compute_instance.vm-2.network_interface.0.ip_address
+}
+output "external_ip_address_vm_2" {
+  value = yandex_compute_instance.vm-2.network_interface.0.nat_ip_address
 }

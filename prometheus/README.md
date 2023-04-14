@@ -117,6 +117,7 @@ systemctl status node-exporter
 
 ```
 ![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result2.png)
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result3.png)
 ---
 
 ### Задание 3
@@ -130,6 +131,7 @@ systemctl status node-exporter
 
 ```bash
 nano /etc/prometheus/prometheus.yml
+systemctl restart prometheus
 ```
 ---
     static_configs:
@@ -140,7 +142,8 @@ nano /etc/prometheus/prometheus.yml
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот конфигурации из интерфейса Prometheus вкладки Status > Configuration
 - [ ] Прикрепите к файлу README.md скриншот из интерфейса Prometheus вкладки Status > Targets, чтобы было видно минимум два эндпоинта
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result4.png)
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result5.png)
 ---
 ## Дополнительные задания со звёздочкой*
 Эти задания дополнительные. Их можно не выполнять. Это не повлияет на зачёт. Вы можете их выполнить, если хотите глубже разобраться в материале.
@@ -150,9 +153,21 @@ nano /etc/prometheus/prometheus.yml
 ### Задание 4*
 Установите Grafana.
 
+```bash
+echo "Скачайте и установите DEB-пакет"
+wget https://dl.grafana.com/oss/release/grafana_9.2.4_amd64.deb
+dpkg -i grafana_9.2.4_amd64.deb
+echo "Включите автозапуск и запускаем сервер Grafana"
+systemctl enable grafana-server
+systemctl start grafana-server
+systemctl status grafana-server
+echo "(https://<наш сервер>:3000
+Стандартный логин и пароль admin \ admin)"
+```
+
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот левого нижнего угла интерфейса, чтобы при наведении на иконку пользователя были видны ваши ФИО
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result6.png)
 ---
 
 ### Задание 5*
@@ -160,6 +175,8 @@ nano /etc/prometheus/prometheus.yml
 
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот дашборда (ID:11074) с поступающими туда данными из Node Exporter
+
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result7.png)
 
 ## Критерии оценки
 1. Выполнено минимум 3 обязательных задания

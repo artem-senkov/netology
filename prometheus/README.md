@@ -1,81 +1,74 @@
-# Домашнее задание к занятию "`DEVOPS`" - `Senkov Artem`
-
-
+# Домашнее задание к занятию "`Система мониторинга Prometheus`" - `Senkov Artem`
 
 ### Задание 1
+Установите Prometheus.
 
-`В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки`
-[Репозиторий с тестами для ДЗ](https://github.com/artem-senkov/sdvps-materials)
+#### Процесс выполнения
+1. Выполняя задание, сверяйтесь с процессом, отражённым в записи лекции
+2. Создайте пользователя prometheus
+3. Скачайте prometheus и в соответствии с лекцией разместите файлы в целевые директории
+4. Создайте сервис как показано на уроке
+5. Проверьте что prometheus запускается, останавливается, перезапускается и отображает статус с помощью systemctl
+
+#### Требования к результату
+- [ ] Прикрепите к файлу README.md скриншот systemctl status prometheus, где будет написано: prometheus.service — Prometheus Service Netology Lesson 9.4 — [Ваши ФИО]
+![screen 1](https://github.com/artem-senkov/netology/edit/main/prometheus/img/result1.png)
+
+```bash
+ls -la
 ```
-```
-
-![screen 1](https://github.com/artem-senkov/8-03-hw/blob/main/img/config1.png)
-![screen 2](https://github.com/artem-senkov/8-03-hw/blob/main/img/config2.png)
-![screen 3](https://github.com/artem-senkov/8-03-hw/blob/main/img/result1.png)
-![screen 4](https://github.com/artem-senkov/8-03-hw/blob/main/img/result2.png)
-![screen 5](https://github.com/artem-senkov/8-03-hw/blob/main/img/repo1.png)
-![screen 6](https://github.com/artem-senkov/8-03-hw/blob/main/img/repo2.png)
-
 
 ---
 
+
 ### Задание 2
+Установите Node Exporter.
 
-`Создайте новый проект pipeline.
-Перепишите сборку из задания 1 на declarative в виде кода.`
+#### Процесс выполнения
+1. Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции.
+3. Скачайте node exporter приведённый в презентации и в соответствии с лекцией разместите файлы в целевые директории
+4. Создайте сервис для как показано на уроке
+5. Проверьте что node exporter запускается, останавливается, перезапускается и отображает статус с помощью systemctl
 
-![screen 1](https://github.com/artem-senkov/8-03-hw/blob/main/img/pipeconfig.png)
-![screen 2](https://github.com/artem-senkov/8-03-hw/blob/main/img/piperesult.png)
-![screen 3](https://github.com/artem-senkov/8-03-hw/blob/main/img/pipeconsole.png)
+#### Требования к результату
+- [ ] Прикрепите к файлу README.md скриншот systemctl status node-exporter, где будет написано: node-exporter.service — Node Exporter Netology Lesson 9.4 — [Ваши ФИО]
 
 ---
 
 ### Задание 3
+Подключите Node Exporter к серверу Prometheus.
 
-`Установите на машину Nexus.
-Создайте raw-hosted репозиторий.
-Измените pipeline так, чтобы вместо Docker-образа собирался бинарный go-файл. Команду можно скопировать из Dockerfile.
-Загрузите файл в репозиторий с помощью jenkins.
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.`
+#### Процесс выполнения
+1. Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции.
+2. Отредактируйте prometheus.yaml, добавив в массив таргетов установленный в задании 2 node exporter
+3. Перезапустите prometheus
+4. Проверьте что он запустился
+
+#### Требования к результату
+- [ ] Прикрепите к файлу README.md скриншот конфигурации из интерфейса Prometheus вкладки Status > Configuration
+- [ ] Прикрепите к файлу README.md скриншот из интерфейса Prometheus вкладки Status > Targets, чтобы было видно минимум два эндпоинта
+
 ---
-pipeline {
-    agent any
+## Дополнительные задания со звёздочкой*
+Эти задания дополнительные. Их можно не выполнять. Это не повлияет на зачёт. Вы можете их выполнить, если хотите глубже разобраться в материале.
 
-    stages {
-        stage('Git') {
-            steps {
-                git url:'https://github.com/artem-senkov/sdvps-materials.git', branch: 'main'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh '/usr/local/go/bin/go test .'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'ls'
-                sh 'CGO_ENABLED=0 GOOS=linux /usr/local/go/bin/go build -a -installsuffix nocgo -o goapp.v.$BUILD_NUMBER'
-                sh 'ls'
-            }
-        }
-        stage('Push') {
-            steps {
-                sh 'curl -u "admin:passw" http://192.168.56.10:8081/repository/raw_repo1/ --upload-file goapp.v.$BUILD_NUMBER'
-            }
-        }
-    }
-}
 ---
-![screen 1](https://github.com/artem-senkov/8-03-hw/blob/main/img/stageview.png)
-![screen 2](https://github.com/artem-senkov/8-03-hw/blob/main/img/3consoleoutput.png)
+
+### Задание 4*
+Установите Grafana.
+
+#### Требования к результату
+- [ ] Прикрепите к файлу README.md скриншот левого нижнего угла интерфейса, чтобы при наведении на иконку пользователя были видны ваши ФИО
+
 ---
-Задание 4* Выполнил в Задании 3
-Придумайте способ версионировать приложение, чтобы каждый следующий запуск сборки присваивал имени файла новую версию. Таким образом, в репозитории Nexus будет храниться история релизов.
 
-Подсказка: используйте переменную BUILD_NUMBER.
+### Задание 5*
+Интегрируйте Grafana и Prometheus.
 
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
----
-![screen 3](https://github.com/artem-senkov/8-03-hw/blob/main/img/rawrepo.png)
+#### Требования к результату
+- [ ] Прикрепите к файлу README.md скриншот дашборда (ID:11074) с поступающими туда данными из Node Exporter
 
+## Критерии оценки
+1. Выполнено минимум 3 обязательных задания
+2. Прикреплены требуемые скриншоты
+3. Задание оформлено в шаблоне с решением и опубликовано на GitHub

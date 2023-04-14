@@ -81,6 +81,39 @@ sudo systemctl status prometheus
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот systemctl status node-exporter, где будет написано: node-exporter.service — Node Exporter Netology Lesson 9.4 — [Ваши ФИО]
 
+
+```bash
+echo "Скачиваем архив и распаковываем"
+wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+tar xvfz node_exporter-*.*-amd64.tar.gz
+cd node_exporter-*.*-amd64./node_exporter
+
+echo "Создаем папку, копируем и даем права пользователю"
+mkdir /etc/prometheus/node-exporter
+cp ./* /etc/prometheus/node-exporter
+chown -R prometheus:prometheus /etc/prometheus/node-exporter/
+echo "Создаём сервис для работы с Node Explorer"
+echo "
+[Unit]
+Description=Node Exporter Lesson 9.4
+After=network.target
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/etc/prometheus/node-exporter/node_exporter
+[Install]
+WantedBy=multi-user.target 
+" >> /etc/systemd/system/node-exporter.service
+
+echo "атозапуск и старт сервиса"
+systemctl enable node-exporter
+systemctl start node-exporter
+systemctl status node-exporter
+
+
+```
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result2.png)
 ---
 
 ### Задание 3

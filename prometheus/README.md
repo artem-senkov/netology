@@ -15,7 +15,30 @@
 ![screen 1](https://github.com/artem-senkov/netology/edit/main/prometheus/img/result1.png)
 
 ```bash
-ls -la
+echo "Создайте пользователя Prometheus"
+sudo useradd --no-create-home --shell /bin/false prometheus
+echo "Скачайте с git последний релиз Извлеките архив и скопируйте файлы в необходимые директории"
+mkdir prometheus 
+cd prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.43.0%2Bstringlabels/prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
+tar xvfz prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
+cd prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
+mkdir /etc/prometheus
+mkdir /var/lib/prometheus
+cp ./prometheus promtool /usr/local/bin/
+cp -R ./console_libraries /etc/prometheus
+cp -R ./consoles /etc/prometheus
+cp ./prometheus.yml /etc/prometheus
+echo "Передайте права на файлы пользователю Prometheus"
+chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+chown prometheus:prometheus /usr/local/bin/prometheus
+chown prometheus:prometheus /usr/local/bin/promtool
+echo "Запустите и проверьте результат:"
+/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path
+/var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles
+--web.console.libraries=/etc/prometheus/console_libraries 
+
+
 ```
 
 ---

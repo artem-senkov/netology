@@ -65,7 +65,7 @@ sudo systemctl enable prometheus
 sudo systemctl start prometheus
 sudo systemctl status prometheus
 ```
-![screen 1](https://github.com/artem-senkov/netology/edit/main/prometheus/img/prom_result1.png)
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/prom_result1.png)
 ---
 
 

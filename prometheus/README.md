@@ -83,19 +83,22 @@ sudo systemctl status prometheus
 
 
 ```bash
+echo "Создайте пользователя Prometheus"
+sudo useradd --no-create-home --shell /bin/false prometheus
 echo "Скачиваем архив и распаковываем"
 wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
 tar xvfz node_exporter-*.*-amd64.tar.gz
-cd node_exporter-*.*-amd64./node_exporter
+cd node_exporter-*.*-amd64
 
 echo "Создаем папку, копируем и даем права пользователю"
+mkdir /etc/prometheus
 mkdir /etc/prometheus/node-exporter
 cp ./* /etc/prometheus/node-exporter
 chown -R prometheus:prometheus /etc/prometheus/node-exporter/
 echo "Создаём сервис для работы с Node Explorer"
 echo "
 [Unit]
-Description=Node Exporter Lesson 9.4
+Description=Node Exporter Lesson 9.4 Artem Senkov
 After=network.target
 [Service]
 User=prometheus
@@ -124,6 +127,15 @@ systemctl status node-exporter
 2. Отредактируйте prometheus.yaml, добавив в массив таргетов установленный в задании 2 node exporter
 3. Перезапустите prometheus
 4. Проверьте что он запустился
+
+```bash
+nano /etc/prometheus/prometheus.yml
+```
+---
+    static_configs:
+      - targets: ["localhost:9090","192.168.7.245:9100"]
+---
+
 
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот конфигурации из интерфейса Prometheus вкладки Status > Configuration

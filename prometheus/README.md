@@ -14,9 +14,9 @@
 - [ ] Прикрепите к файлу README.md скриншот systemctl status prometheus, где будет написано: prometheus.service — Prometheus Service Netology Lesson 9.4 — [Ваши ФИО]
 
 ```bash
-echo "Создайте пользователя Prometheus"
+echo "Создаем пользователя Prometheus"
 sudo useradd --no-create-home --shell /bin/false prometheus
-echo "Скачайте с git последний релиз Извлеките архив и скопируйте файлы в необходимые директории"
+echo "Скачиваем с git последний релиз извлекаем архив и копируем файлы в необходимые директории"
 mkdir prometheus 
 cd prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.43.0%2Bstringlabels/prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
@@ -28,17 +28,14 @@ cp ./prometheus promtool /usr/local/bin/
 cp -R ./console_libraries /etc/prometheus
 cp -R ./consoles /etc/prometheus
 cp ./prometheus.yml /etc/prometheus
-echo "Передайте права на файлы пользователю Prometheus"
+echo "Даем права на файлы пользователю Prometheus"
 chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
 chown prometheus:prometheus /usr/local/bin/prometheus
 chown prometheus:prometheus /usr/local/bin/promtool
-echo "Запустите и проверьте результат:"
-/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path
-/var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles
---web.console.libraries=/etc/prometheus/console_libraries 
 ```
 
 ```bash
+echo "Создаем сервис Prometheus"
 echo "
 [Unit]
 Description=Prometheus Service Netology Lesson 9.4 Artem Senkov
@@ -57,10 +54,10 @@ ExecReload=/bin/kill -HUP $MAINPID Restart=on-failure
 WantedBy=multi-user.target
 " >> /etc/systemd/system/prometheus.service
 
-echo "Передайте права на файл"
+echo "Задаем права на файл"
 
 chown -R prometheus:prometheus /var/lib/prometheus
-
+echo "Включаем и запускаем сервис"
 sudo systemctl enable prometheus
 sudo systemctl start prometheus
 sudo systemctl status prometheus
@@ -83,7 +80,7 @@ sudo systemctl status prometheus
 
 
 ```bash
-echo "Создайте пользователя Prometheus"
+echo "Создаем пользователя Prometheus"
 sudo useradd --no-create-home --shell /bin/false prometheus
 echo "Скачиваем архив и распаковываем"
 wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
@@ -134,6 +131,7 @@ nano /etc/prometheus/prometheus.yml
 systemctl restart prometheus
 ```
 ---
+Добавляем target /etc/prometheus/prometheus.yml
     static_configs:
       - targets: ["localhost:9090","192.168.7.245:9100"]
 ---
@@ -154,14 +152,14 @@ systemctl restart prometheus
 Установите Grafana.
 
 ```bash
-echo "Скачайте и установите DEB-пакет"
+echo "Скачиваем и устанавливаем DEB-пакет"
 wget https://dl.grafana.com/oss/release/grafana_9.2.4_amd64.deb
 dpkg -i grafana_9.2.4_amd64.deb
-echo "Включите автозапуск и запускаем сервер Grafana"
+echo "автозапуск и запуск сервера Grafana"
 systemctl enable grafana-server
 systemctl start grafana-server
 systemctl status grafana-server
-echo "(https://<наш сервер>:3000
+echo "(Сервер доступен по адресуhttps://<наш сервер>:3000
 Стандартный логин и пароль admin \ admin)"
 ```
 

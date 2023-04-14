@@ -22,7 +22,7 @@ mkdir prometheus
 cd prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.43.0%2Bstringlabels/prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
 tar xvfz prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
-cd prometheus-2.43.0+stringlabels.linux-amd64.tar.gz
+cd prometheus-2.43.0+stringlabels.linux-amd64
 mkdir /etc/prometheus
 mkdir /var/lib/prometheus
 cp ./prometheus promtool /usr/local/bin/
@@ -37,8 +37,34 @@ echo "Запустите и проверьте результат:"
 /usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path
 /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles
 --web.console.libraries=/etc/prometheus/console_libraries 
+```
 
+```bash
+echo "
+[Unit]
+Description=Prometheus Service Netology Lesson 9.4 Artem Senkov
+After=network.target
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+--config.file /etc/prometheus/prometheus.yml \
+--storage.tsdb.path /var/lib/prometheus/ \
+--web.console.templates=/etc/prometheus/consoles \
+--web.console.libraries=/etc/prometheus/console_libraries
+ExecReload=/bin/kill -HUP $MAINPID Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+" >> /etc/systemd/system/prometheus.service
 
+echo "Передайте права на файл"
+
+chown -R prometheus:prometheus /var/lib/prometheus
+
+sudo systemctl enable prometheus
+sudo systemctl start prometheus
+sudo systemctl status prometheus
 ```
 
 ---

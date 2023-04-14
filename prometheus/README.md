@@ -12,7 +12,6 @@
 
 #### Требования к результату
 - [ ] Прикрепите к файлу README.md скриншот systemctl status prometheus, где будет написано: prometheus.service — Prometheus Service Netology Lesson 9.4 — [Ваши ФИО]
-![screen 1](https://github.com/artem-senkov/netology/edit/main/prometheus/img/result1.png)
 
 ```bash
 echo "Создайте пользователя Prometheus"
@@ -66,7 +65,7 @@ sudo systemctl enable prometheus
 sudo systemctl start prometheus
 sudo systemctl status prometheus
 ```
-
+![screen 1](https://github.com/artem-senkov/netology/edit/main/prometheus/img/prom_result1.png)
 ---
 
 

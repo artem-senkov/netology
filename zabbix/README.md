@@ -29,6 +29,7 @@ systemctl start postgresql
 systemctl enable postgresql
 systemctl status postgresql
 ```
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/postgres1.png)
 
 ##### Ставлю Zabbix на свою вирт машину
 Конфигуратор:
@@ -70,7 +71,7 @@ systemctl restart zabbix-server zabbix-agent apache2
 systemctl enable zabbix-server zabbix-agent apache2
 systemctl status zabbix-server zabbix-agent apache2
 ```
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/zabbixstatus.png)
 ##### f. Open Zabbix UI web page
 The default URL for Zabbix UI when using Apache web server is http://host/zabbix
 
@@ -79,7 +80,7 @@ The default URL for Zabbix UI when using Apache web server is http://host/zabbix
 QuickStart guide
 https://www.zabbix.com/documentation/6.4/en/manual/quickstart/login
 
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/zabbixweb.png)
 
 ### Задание 2 
 
@@ -118,8 +119,9 @@ systemctl restart zabbix-agent
 systemctl enable zabbix-agent
 systemctl status zabbix-agent
 ```
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/zabbixagent.png)
 
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/zabbixhosts.png)
 ---
 ## Задание 3 со звёздочкой*
 Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
@@ -130,7 +132,7 @@ systemctl status zabbix-agent
 #### Требования к результаты 
 1. Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:
 --- 
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/zabbixwindows.png)
 ## Критерии оценки
 
 1. Выполнено минимум 2 обязательных задания

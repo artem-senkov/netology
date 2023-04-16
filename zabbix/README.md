@@ -71,6 +71,16 @@ systemctl enable zabbix-server zabbix-agent apache2
 systemctl status zabbix-server zabbix-agent apache2
 ```
 
+##### f. Open Zabbix UI web page
+The default URL for Zabbix UI when using Apache web server is http://host/zabbix
+
+###### Enter the user name Admin with password zabbix to log in as a Zabbix superuser
+
+QuickStart guide
+https://www.zabbix.com/documentation/6.4/en/manual/quickstart/login
+
+
+
 ### Задание 2 
 
 Установите Zabbix Agent на два хоста.

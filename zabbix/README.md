@@ -110,7 +110,8 @@ apt update
 apt install  zabbix-agent
 ```
 ##### c. Edit conf file add server ip
- nano /etc/zabbix/zabbix_agentd.conf 
+ Вручную nano /etc/zabbix/zabbix_agentd.conf
+ Или sed -i 's/Server=127.0.0.1/Server=192.168.181.7'/g' /etc/zabbix/zabbix_server.conf
 
 ##### d. Start Zabbix  agent processes
 Start Zabbix server and agent processes and make it start at system boot.
@@ -127,7 +128,7 @@ systemctl status zabbix-agent
 Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
 
 Поставил
-
+https://www.zabbix.com/download_agents
 
 #### Требования к результаты 
 1. Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:

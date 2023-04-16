@@ -18,6 +18,17 @@
 2. Приложите в файл README.md текст использованных команд в GitHub
 
 ---
+##### Install PostgreSQL 15 using the official repository
+```bash
+apt-get install wget sudo curl gnupg2 -y
+sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+apt -y update
+apt-get install postgresql-15 -y
+systemctl start postgresql
+systemctl enable postgresql
+systemctl status postgresql
+```
 
 ##### Ставлю Zabbix на свою вирт машину
 Конфигуратор:

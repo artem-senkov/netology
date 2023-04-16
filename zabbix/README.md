@@ -98,9 +98,34 @@ https://www.zabbix.com/documentation/6.4/en/manual/quickstart/login
 3. Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.
 4. Приложите в файл README.md текст использованных команд в GitHub
 
+##### a. Install Zabbix repository
+```bash
+wget https://repo.zabbix.com/zabbix/6.4/debian/pool/main/z/zabbix-release/zabbix-release_6.4-1+debian11_all.deb
+dpkg -i zabbix-release_6.4-1+debian11_all.deb
+apt update
+```
+##### b. Install Zabbix server, frontend, agent
+```bash
+apt install  zabbix-agent
+```
+##### c. Edit conf file add server ip
+ nano /etc/zabbix/zabbix_agentd.conf 
+
+##### d. Start Zabbix  agent processes
+Start Zabbix server and agent processes and make it start at system boot.
+```bash
+systemctl restart zabbix-agent
+systemctl enable zabbix-agent
+systemctl status zabbix-agent
+```
+
+
 ---
 ## Задание 3 со звёздочкой*
 Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
+
+Поставил
+
 
 #### Требования к результаты 
 1. Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:

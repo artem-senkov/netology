@@ -42,7 +42,7 @@
 
 #### Требования к результату
 - [ ] Прикрепите в файл README.md скриншот страницы шаблона с названием «Задание 1»
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/custom_template.png)
  ---
 
 ### Задание 2
@@ -72,7 +72,7 @@
 
 #### Требования к результату
 - [ ] Прикрепите в файл README.md скриншот страницы хостов, где будут видны привязки шаблонов с названиями «Задание 2-3». Хосты должны иметь зелёный статус подключения
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/exer3_hosts.png)
  ---
 
 ### Задание 4
@@ -85,6 +85,8 @@
 
 #### Требования к результату
 - [ ] Прикрепите в файл README.md скриншот дашборда с названием «Задание 4»
+ ![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/exercize4.png)
+ ---
 
  ---
 
@@ -99,6 +101,7 @@
 #### Требования к результату
 - [ ] Прикрепите в файл README.md скриншот карты, где видно, что триггер сработал, с названием «Задание 5» 
 
+ ![screen 1](https://github.com/artem-senkov/netology/blob/main/zabbix/img/exer5_map.png)
  ---
 
 ### Задание 6* со звёздочкой

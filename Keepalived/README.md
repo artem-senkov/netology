@@ -65,6 +65,8 @@ vrrp_instance VI_1 {
         }
 }
 ```
+[img1](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep1.png)
+
 HOST2 CONFIG
 ```yaml
 vrrp_instance VI_1 {
@@ -83,7 +85,7 @@ vrrp_instance VI_1 {
         }
 }
 ```
-
+[img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
 
 
 ## Дополнительные задания со звёздочкой*

@@ -102,3 +102,6 @@ vrrp_instance VI_1 {
 - найдите пакеты ICMP, в которых будет отображён процесс изменения MAC-адреса одной ноды на другой. 
 
  *В качестве решения пришлите скриншот до и после выключения интерфейса из Wireshark.*
+ ![img3](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep3.png)
+ ![img4](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep4.png)
+ 

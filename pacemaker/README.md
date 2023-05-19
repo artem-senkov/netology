@@ -4,8 +4,22 @@
 ### Задание 1
 
 Опишите основные функции и назначение Pacemaker.
+Менеджер кластера - он отслеживает состояние узлов - членов кластера, сервисов на этих узлах, выполняет определенные действия при изменении состояния компонентов кластера. 
 
-*Приведите ответ в свободной форме.*
+Функции:
+-Обнаружение и восстановление сбоев на уровне узлов и сервисов;
+-Независимость от подсистемы хранения: общий диск не требуется;
+-Независимость от типов ресурсов: все что может быть заскриптовано, может быть кластеризовано;
+-Поддержка STONITH (Shoot-The-Other-Node-In-The-Head) — лекарства от Split-Brain ;);
+-Поддержка кластеров любого размера;
+-Поддержка и кворумных и ресурсозависимых кластеров;
+-Поддержка практически любой избыточной конфигурации;
+-Автоматическая репликация конфига на все узлы кластера;
+-Возможность задания порядка запуска ресурсов, а также их совместимости на одном узле;
+-Поддержка расширенных типов ресурсов: клонов (запущен на множестве узлов) и с дополнительными состояниями (master/slave и т.п.);
+-Единый кластерный шелл (crm), унифицированный, скриптующийся.
+
+
 
 ---
 
@@ -15,6 +29,8 @@
 
 *Приведите ответ в свободной форме.*
 
+COROSYNC занимается синхронизацией -отслеживает и передает состояние всех узлов кластера.
+с его помощью осуществляется сетевое взаимодействие узлов, передача сервисных команд (запуск/остановка ресурсов, узлов и т.д.), обмен информацией о полноте состава кластера (quorum) 
 ---
 
 ### Задание 3
@@ -22,9 +38,9 @@
 Соберите модель, состоящую из двух виртуальных машин. Установите Pacemaker, Corosync, Pcs. Настройте HA кластер.
 
 *Пришлите скриншот рабочей конфигурации и состояния сервиса для каждого нода.*
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/pcs_config.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/status1.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/status2.png)
 
 ---
 
@@ -38,10 +54,10 @@
 Установите и настройте DRBD-сервис для настроенного кластера.
 
 *Пришлите скриншот рабочей конфигурации и состояние сервиса для каждого нода.*
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/www.png)
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/mysql.png)
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
-![img2](https://github.com/artem-senkov/netology/blob/main/Keepalived/imgs/keep2.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/drbd1.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/drbd2.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/mysql.png)
+![img2](https://github.com/artem-senkov/netology/blob/main/pacemaker/img/www.png)
 
-
+Конфигурации одинаковы для каждой ноды.
 

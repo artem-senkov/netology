@@ -528,6 +528,8 @@ secrets file = /etc/rsyncd.scrt
 
 
 ```
+### bacula
+
 #### client
 ```
 #!/bin/bash
@@ -551,4 +553,99 @@ date
 echo "Finish backup ${srv_name}"
 
 ```
+### bacula
 
+
+#### bacula client
+```
+Director {
+  Name = deb11-10-dir
+  Password = "J8DMQJBAO0YLC7qXp8l_6F7fi8BTRsk8B"
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the file daemon
+#
+Director {
+  Name = deb11-10-mon
+  Password = "OQwq4r6S2i7gOOm1hngIwHct3NJD_I1_S"
+  Monitor = yes
+}
+#
+# "Global" File daemon configuration specifications
+#
+FileDaemon {                          # this is me
+  Name = deb11-20-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 192.168.56.20
+}
+
+# Send all messages except skipped files back to Director
+Messages {
+  Name = Standard
+  director = deb11-10-dir = all, !skipped, !restored
+}
+```
+#### bacula director добавил
+```
+Client {
+  Name = deb11-20-fd
+  Address = 192.168.56.20
+  FDPort = 9102
+  Catalog = MyCatalog
+  Password = "J8DMQJBAO0YLC7qXp8l_6F7fi8BTRsk8B"          # password for FileDaemon
+  File Retention = 60 days            # 60 days
+  Job Retention = 6 months            # six months
+  AutoPrune = yes                     # Prune expired Jobs/Files
+}
+  
+JobDefs {
+  Name = "deb11-20Job"
+  Type = Backup
+  Level = Incremental
+  Client = deb11-20-fd
+  FileSet = "etcdefault"
+  Schedule = "WeeklyCycle"
+  Storage = File1
+  Messages = Standard
+  Pool = File
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+}
+  
+
+Job {
+  Name = "Backup-deb11-20"
+  JobDefs = "deb11-20Job"
+  Level = Full
+  FileSet="etcdefault"
+  Schedule = "WeeklyCycleAfterBackup"
+  RunBeforeJob = "/etc/bacula/scripts/make_catalog_backup.pl MyCatalog"
+  RunAfterJob  = "/etc/bacula/scripts/delete_catalog_backup"
+  Write Bootstrap = "/var/lib/bacula/%n.bsr"
+  Priority = 11                   # run after main backup
+}
+
+FileSet {
+  Name = "etcdefault"
+  Include {
+    Options {
+      signature = MD5
+    }
+    File = /etc/default
+  }
+
+ Exclude {
+    File = /.fsck
+  }
+}
+  
+  
+
+```

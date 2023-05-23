@@ -528,7 +528,6 @@ secrets file = /etc/rsyncd.scrt
 
 
 ```
-### bacula
 
 #### client
 ```

@@ -24,24 +24,9 @@ Full backup создается полная копия всех данных
 *Пришлите:*   
 *- конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd,*   
 *- скриншот, подтверждающий успешное прохождение резервного копирования.*
-```yaml
-#
-# Default Bacula Director Configuration file
-#
-#  The only thing that MUST be changed is to add one or more
-#   file or directory names in the Include directive of the
-#   FileSet resource.
-#
-#  For Bacula release 9.6.7 (10 December 2020) -- debian bullseye/sid
-#
-#  You might also want to change the default email address
-#   from root to your address.  See the "mail" and "operator"
-#   directives in the Messages resource.
-#
-# Copyright (C) 2000-2020 Kern Sibbald
-# License: BSD 2-Clause; see file LICENSE-FOSS
-#
 
+#### bacula-dir.conf
+```
 Director {                            # define myself
   Name = deb11-10-dir
   DIRport = 9101                # where we listen for UA connections
@@ -77,22 +62,6 @@ Job {
   Name = "BackupClient1"
   JobDefs = "DefaultJob"
 }
-
-#Job {
-#  Name = "BackupClient2"
-#  Client = deb11-102-fd
-#  JobDefs = "DefaultJob"
-#}
-
-#Job {
-#  Name = "BackupClient1-to-Tape"
-#  JobDefs = "DefaultJob"
-#  Storage = LTO-4
-#  Spool Data = yes    # Avoid shoe-shine
-#  Pool = Default
-#}
-
-#}
 
 # Backup the catalog database (after the nightly save)
 Job {
@@ -208,21 +177,6 @@ Client {
   AutoPrune = yes                     # Prune expired Jobs/Files
 }
 
-#
-# Second Client (File Services) to backup
-#  You should change Name, Address, and Password before using
-#
-#Client {
-#  Name = deb11-102-fd
-#  Address = localhost2
-#  FDPort = 9102
-#  Catalog = MyCatalog
-#  Password = "J8DMQJBAO0YLC7qXp8l_6F7fi8BTRsk8B2"        # password for FileDaemon 2
-#  File Retention = 60 days           # 60 days
-#  Job Retention = 6 months           # six months
-#  AutoPrune = yes                    # Prune expired Jobs/Files
-#}
-
 
 # Definition of file Virtual Autochanger device
 Autochanger {
@@ -251,18 +205,7 @@ Autochanger {
   Maximum Concurrent Jobs = 10        # run up to 10 jobs a the same time
 }
 
-# Definition of LTO-4 tape Autochanger device
-#Autochanger {
-#  Name = LTO-4
-#  Do not use "localhost" here
-#  Address = localhost               # N.B. Use a fully qualified name here
-#  SDPort = 9103
-#  Password = "EFvH2r4KISX3AZIfWVJgOwhohNZGa1hnz"         # password for Storage daemon
-#  Device = LTO-4                     # must be same as Device in Storage daemon
-#  Media Type = LTO-4                 # must be same as MediaType in Storage daemon
-#  Autochanger = LTO-4                # enable for autochanger device
-#  Maximum Concurrent Jobs = 10
-#}
+
 
 # Generic catalog service
 Catalog {
@@ -274,28 +217,11 @@ Catalog {
 #  and to the console
 Messages {
   Name = Standard
-#
-# NOTE! If you send to two email or more email addresses, you will need
-#  to replace the %r in the from field (-f part) with a single valid
-#  email address in both the mailcommand and the operatorcommand.
-#  What this does is, it sets the email address that emails would display
-#  in the FROM field, which is by default the same email as they're being
-#  sent to.  However, if you send email to more than one address, then
-#  you'll have to set the FROM address manually, to a single address.
-#  for example, a 'no-reply@mydomain.com', is better since that tends to
-#  tell (most) people that its coming from an automated source.
-
-#
   mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: %t %e of %c %l\" %r"
   operatorcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: Intervention needed for %j\" %r"
   mail = root = all, !skipped
   operator = root = mount
   console = all, !skipped, !saved
-#
-# WARNING! the following will create a file that you must cycle from
-#          time to time as it will grow indefinitely. However, it will
-#          also keep all your messages if they scroll off the console.
-#
   append = "/var/log/bacula/bacula.log" = all, !skipped
   catalog = all
 }
@@ -351,11 +277,165 @@ Console {
 }
 
 ```
-
-```yaml
+#### bacula-fd.conf
 ```
+#
+# Default  Bacula File Daemon Configuration file
+#
+#  For Bacula release 9.6.7 (10 December 2020) -- debian bullseye/sid
+#
+# There is not much to change here except perhaps the
+# File daemon Name to
+#
+#
+# Copyright (C) 2000-2020 Kern Sibbald
+# License: BSD 2-Clause; see file LICENSE-FOSS
+#
 
-```yaml
+#
+# List Directors who are permitted to contact this File daemon
+#
+Director {
+  Name = deb11-10-dir
+  Password = "J8DMQJBAO0YLC7qXp8l_6F7fi8BTRsk8B"
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the file daemon
+#
+Director {
+  Name = deb11-10-mon
+  Password = "OQwq4r6S2i7gOOm1hngIwHct3NJD_I1_S"
+  Monitor = yes
+}
+
+#
+# "Global" File daemon configuration specifications
+#
+FileDaemon {                          # this is me
+  Name = deb11-10-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 127.0.0.1
+}
+
+# Send all messages except skipped files back to Director
+Messages {
+  Name = Standard
+  director = deb11-10-dir = all, !skipped, !restored
+}
+
+```
+#### bacula-sd.conf
+```
+#
+# Default Bacula Storage Daemon Configuration file
+#
+#  For Bacula release 9.6.7 (10 December 2020) -- debian bullseye/sid
+#
+Storage {                             # definition of myself
+  Name = deb11-10-sd
+  SDPort = 9103                  # Director's port
+  WorkingDirectory = "/var/lib/bacula"
+  Pid Directory = "/run/bacula"
+  Plugin Directory = "/usr/lib/bacula"
+  Maximum Concurrent Jobs = 5
+  SDAddress = 127.0.0.1
+}
+
+#
+# List Directors who are permitted to contact Storage daemon
+#
+Director {
+  Name = deb11-10-dir
+  Password = "EFvH2r4KISX3AZIfWVJgOwhohNZGa1hnz"
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the storage daemon
+#
+Director {
+  Name = deb11-10-mon
+  Password = "6DVtN3koVeKNIBKLzp6plhCi0swQjyboO"
+  Monitor = yes
+}
+# Define a Virtual autochanger
+#
+Autochanger {
+  Name = FileChgr1
+  Device = FileChgr1-Dev1, FileChgr1-Dev2
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileChgr1-Dev1
+  Media Type = File1
+  Archive Device = /backup1
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = FileChgr1-Dev2
+  Media Type = File1
+  Archive Device = /backup2
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+#
+# Define a second Virtual autochanger
+#
+Autochanger {
+  Name = FileChgr2
+  Device = FileChgr2-Dev1, FileChgr2-Dev2
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileChgr2-Dev1
+  Media Type = File2
+  Archive Device = /backup1
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = FileChgr2-Dev2
+  Media Type = File2
+  Archive Device = /backup2
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Messages {
+  Name = Standard
+  director = deb11-10-dir = all
+}
+
 ```
 ---
 

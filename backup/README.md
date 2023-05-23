@@ -437,7 +437,7 @@ Messages {
 }
 
 ```
-![img1]()
+![img1](https://github.com/artem-senkov/netology/blob/main/backup/img/bacula-status.png)
 ---
 
 ### Задание 3

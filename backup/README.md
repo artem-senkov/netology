@@ -512,34 +512,20 @@ echo "Finish backup ${srv_name}"
 Настройте резервное копирование двумя или более методами, используя одну из рассмотренных команд для папки /etc/default. Проверьте резервное копирование.
 
 *Пришлите рабочую конфигурацию выбранного сервиса по поставленной задаче.*
-#### server
+#### rsync server
 ```
-pid file = /var/run/rsyncd.pid
-log file = /var/log/rsyncd.log
-transfer logging = true
-munge symlinks = yes
-# use chroot = yes
-# папка источник для бэкапа
 
-[data]
-path = /data
+[etcdefault]
+path = /etc/default
 uid = root
 read only = yes
 list = yes
-comment = Data backup Dir
+comment = etc/default  backup Dir
 auth users = backup
 hosts allow = *
 secrets file = /etc/rsyncd.scrt
 
-[root]
-path = /root
-uid = root
-read only = yes
-list = yes
-comment = Root backup Dir
-auth users = backup
-hosts allow = *
-secrets file = /etc/rsyncd.scrt
+
 
 ```
 #### client
@@ -555,7 +541,7 @@ srv_ip=192.168.56.20
 # Пользователь rsync на сервере, который архивируем
 srv_user=backup
 # Ресурс на сервере для бэкапа
-srv_dir=data
+srv_dir=etcdefault
 echo "Start backup ${srv_name}"
 # Создаем папку для инкрементных бэкапов
 mkdir -p ${syst_dir}${srv_name}/increment/

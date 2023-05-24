@@ -23,7 +23,7 @@ Round robin распределяет не анализируя загрузку 
 Установите и запустите Haproxy.
 
 *Приведите скриншот systemctl status haproxy, где будет видно, что Haproxy запущен.*
-
+![img](haproxy)
 ---
 
 ### Задание 4
@@ -31,7 +31,7 @@ Round robin распределяет не анализируя загрузку 
 Установите и запустите Nginx.
 
 *Приведите скриншот systemctl status nginx, где будет видно, что Nginx запущен.*
-
+![img](nginx)
 ---
 
 ### Задание 5
@@ -73,3 +73,22 @@ return 200 'nginx is configured correctly ';
 "nginx is configured correctly". 
 
 *Приведите конфигурации настроенного Haproxy и скриншоты результата выполнения команды curl http://localhost:8080/.*
+```
+listen stats # описание конфига для показа статистики в интерфейсе HAProxy
+ bind :::888
+ mode http
+ stats enable
+ stats uri /local
+ stats refresh 15s
+ stats realm Haproxy\ Statistics
+
+frontend example # правила роутинга входящих HTTP-запросов
+ mode http
+ bind :::8080
+ default_backend web_servers
+backend web_servers # конфигурация балансировки для пула серверов web_servers
+ mode http
+ balance roundrobin
+ server s1 192.168.56.10:8088
+```
+![img](haproxy)

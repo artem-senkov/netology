@@ -23,7 +23,7 @@ Round robin распределяет не анализируя загрузку 
 Установите и запустите Haproxy.
 
 *Приведите скриншот systemctl status haproxy, где будет видно, что Haproxy запущен.*
-![img](haproxy)
+![img](https://github.com/artem-senkov/netology/blob/main/HAProxy/img/haproxy_status.png)
 ---
 
 ### Задание 4
@@ -31,7 +31,7 @@ Round robin распределяет не анализируя загрузку 
 Установите и запустите Nginx.
 
 *Приведите скриншот systemctl status nginx, где будет видно, что Nginx запущен.*
-![img](nginx)
+![img](https://github.com/artem-senkov/netology/blob/main/HAProxy/img/nginx_status.png)
 ---
 
 ### Задание 5
@@ -53,7 +53,7 @@ return 200 'nginx is configured correctly ';
 }
 }
 ```
-![img](curl1)
+![img](https://github.com/artem-senkov/netology/blob/main/HAProxy/img/curl.png)
 ---
 
 ## Задания со звёздочкой*
@@ -91,4 +91,4 @@ backend web_servers # конфигурация балансировки для �
  balance roundrobin
  server s1 192.168.56.10:8088
 ```
-![img](haproxy)
+![img](https://github.com/artem-senkov/netology/blob/main/HAProxy/img/haproxy2.png)

@@ -45,7 +45,15 @@ Round robin распределяет не анализируя загрузку 
 "nginx is configured correctly".
 
 *Приведите конфигурации настроенного Nginx сервиса и скриншот результата выполнения команды curl http://localhost:8088/ping.*
-
+```
+server {
+listen 8088;
+location /ping {
+return 200 'nginx is configured correctly ';
+}
+}
+```
+![img](curl1)
 ---
 
 ## Задания со звёздочкой*

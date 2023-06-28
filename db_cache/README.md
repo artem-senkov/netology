@@ -20,7 +20,7 @@
 
 ### Задание 3. Удаление по TTL в Memcached
 
-!(https://shouts.dev/articles/test-memcached-using-telnet-commands)
+![(https://shouts.dev/articles/test-memcached-using-telnet-commands)]
 
 ```
 # structure

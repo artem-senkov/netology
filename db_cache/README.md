@@ -22,18 +22,38 @@
 
 https://shouts.dev/articles/test-memcached-using-telnet-commands
 
+```
+# structure
+set key_name meta_data expiry_time length_in_bytes
+
+# example
+set Test1 0 5 5 # press enter
+Hello # press enter
+
+STORED # you'll see this message after storing
+```
+
 Запишите в memcached несколько ключей с любыми именами и значениями, для которых выставлен TTL 5. 
 
+set Test1 0 5 5
+Hello
 
-
+set Test2 1 5 7
+HELLO!!
 
 ---
 
 ### Задание 4. Запись данных в Redis
 
 Запишите в Redis несколько ключей с любыми именами и значениями. 
+https://habr.com/ru/articles/204354/
+
+set test:1:string "Sample string 1"
+rpush cat-breeds persian ragdoll bengal
 
 *Через redis-cli достаньте все записанные ключи и значения из базы, приведите скриншот этой операции.*
+get test:1:string
+lrange cat-breeds 0 -1
 
 
 ## Дополнительные задания (со звёздочкой*)
@@ -42,5 +62,9 @@ https://shouts.dev/articles/test-memcached-using-telnet-commands
 ### Задание 5*. Работа с числами 
 
 Запишите в Redis ключ key5 со значением типа "int" равным числу 5. Увеличьте его на 5, чтобы в итоге в значении лежало число 10.  
+
+set test:1:int 5
+incrby test:1:int 5
+
 
 *Приведите скриншот, где будут проделаны все операции и будет видно, что значение key5 стало равно 10.*

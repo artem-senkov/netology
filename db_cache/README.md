@@ -15,7 +15,7 @@
 Установите и запустите memcached.
 
 *Приведите скриншот systemctl status memcached, где будет видно, что memcached запущен.*
-
+![img1](https://github.com/artem-senkov/netology/blob/main/backup/img/bacula-status.png)
 ---
 
 ### Задание 3. Удаление по TTL в Memcached

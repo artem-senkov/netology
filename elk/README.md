@@ -55,7 +55,12 @@ GET /_cluster/health
 Установите и запустите Logstash и Nginx. С помощью Logstash отправьте access-лог Nginx в Elasticsearch. 
 
 *Приведите скриншот интерфейса Kibana, на котором видны логи Nginx.*
-
+```
+apt install logstash
+systemctl daemon-reload
+systemctl enable logstash.service
+systemctl start logstash.service
+```
 ---
 
 ### Задание 4. Filebeat. 

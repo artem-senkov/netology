@@ -20,15 +20,33 @@
 
 *Приведите скриншот команды 'curl -X GET 'localhost:9200/_cluster/health?pretty', сделанной на сервере с установленным Elasticsearch. Где будет виден нестандартный cluster_name*.
 
+~~~
+sudo apt-get install apt-transport-https
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
+systemctl daemon-reload
+systemctl enable elasticsearch.service
+systemctl start elasticsearch.service
+~~~
+sudo nano  /etc/elasticsearch/elasticsearch.yml
 
-
+and replace this setting with false 
+# Enable security features
+xpack.security.enabled: false
 ---
 
 ### Задание 2. Kibana
 
 Установите и запустите Kibana.
-
+```
+apt install kibana
+systemctl daemon-reload
+systemctl enable kibana.service
+systemctl start kibana.service
+```
 *Приведите скриншот интерфейса Kibana на странице http://<ip вашего сервера>:5601/app/dev_tools#/console, где будет выполнен запрос GET /_cluster/health?pretty*.
+GET /_cluster/health
+
 
 ---
 

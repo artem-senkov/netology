@@ -24,15 +24,10 @@
 Настройку в итоге делал по другому , по леуции не получилось
 https://serveradmin.ru/ustanovka-i-nastroyka-elasticsearch-logstash-kibana-elk-stack/#Ubuntu_Debian
 Для себя привожу конфиги
-~~~
-http.host: 0.0.0.0
 
-~~~
-nano  /etc/elasticsearch/elasticsearch.yml
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk1-1.png)
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk1-2.png)
 
-and replace this setting with false 
-# Enable security features
-xpack.security.enabled: false
 ---
 
 ### Задание 2. Kibana
@@ -47,6 +42,8 @@ systemctl start kibana.service
 *Приведите скриншот интерфейса Kibana на странице http://<ip вашего сервера>:5601/app/dev_tools#/console, где будет выполнен запрос GET /_cluster/health?pretty*.
 GET /_cluster/health
 
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk2-1.png)
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk2-2.png)
 
 ---
 
@@ -113,6 +110,8 @@ output {
 }
 
 ```
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk3-1.png)
+
 ---
 
 ### Задание 4. Filebeat. 
@@ -141,7 +140,12 @@ output.logstash:
 ```
 
 *Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
-![alt text](https://github.com/thecodebuzz/FileSizePOC/blob/master/TheCodebuzz.png?raw=true)
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk-4-1.png)
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk4-2.png)
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk4-3.png)
+
+Добавил поля в filebeat чтобы отличать записи которые попадают через этот источник от logstash так как в input.conf несколько источников прописал для эксперимента
+
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
@@ -150,5 +154,32 @@ output.logstash:
 
 Настройте поставку лога в Elasticsearch через Logstash и Filebeat любого другого сервиса , но не Nginx. 
 Для этого лог должен писаться на файловую систему, Logstash должен корректно его распарсить и разложить на поля. 
+```
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/logstash/logstash-plain.log
+processors:
+  - drop_fields:
+      fields: ["beat", "input_type", "prospector", "input", "host", "agent","ecs"]
+processors:
+  - add_fields:
+      fields:
+        logger: filebeat
+        importe: 'log imported with filebeat'
+
+output.logstash:
+  hosts: ["localhost:5044"]
+
+```
+
 
 *Приведите скриншот интерфейса Kibana, на котором будет виден этот лог и напишите лог какого приложения отправляется.*
+/var/log/logstash/logstash-plain.log
+![alt text](https://github.com/artem-senkov/netology/blob/main/elk/img/elk5-1.png)
+

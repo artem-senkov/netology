@@ -20,15 +20,15 @@
 
 *Приведите скриншот команды 'curl -X GET 'localhost:9200/_cluster/health?pretty', сделанной на сервере с установленным Elasticsearch. Где будет виден нестандартный cluster_name*.
 
+
+Настройку в итоге делал по другому , по леуции не получилось
+https://serveradmin.ru/ustanovka-i-nastroyka-elasticsearch-logstash-kibana-elk-stack/#Ubuntu_Debian
+Для себя привожу конфиги
 ~~~
-sudo apt-get install apt-transport-https
-echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-sudo apt-get update && sudo apt-get install elasticsearch
-systemctl daemon-reload
-systemctl enable elasticsearch.service
-systemctl start elasticsearch.service
+http.host: 0.0.0.0
+
 ~~~
-sudo nano  /etc/elasticsearch/elasticsearch.yml
+nano  /etc/elasticsearch/elasticsearch.yml
 
 and replace this setting with false 
 # Enable security features
@@ -61,14 +61,87 @@ systemctl daemon-reload
 systemctl enable logstash.service
 systemctl start logstash.service
 ```
+/etc/logstash/conf.d/input.conf
+```
+input {
+  beats {
+    port => 5044
+  }
+}
+
+input {
+  file {
+    path => "/var/log/nginx/access.log"
+    start_position => "beginning"
+  }
+}
+
+input {
+  file {
+    path => "/var/log/nginx/error.log"
+    start_position => "beginning"
+  }
+}
+
+```
+
+filter.conf
+```
+filter {
+ if [type] == "nginx_access" {
+    grok {
+        match => { "message" => "%{IPORHOST:remote_ip} - %{DATA:user} \[%{HTTPDATE:access_time}\] \"%{WORD:http_met$
+    }
+  }
+  date {
+        match => [ "timestamp" , "dd/MMM/YYYY:HH:mm:ss Z" ]
+  }
+}
+
+```
+
+output.conf
+```
+output {
+        elasticsearch {
+            hosts    => "https://localhost:9200"
+            data_stream => "true"
+            user => "elastic"
+            password => "yB*Xnymz90OMmAUKypTG"
+            cacert => "/etc/logstash/certs/http_ca.crt"
+        }
+}
+
+```
 ---
 
 ### Задание 4. Filebeat. 
 
 Установите и запустите Filebeat. Переключите поставку логов Nginx с Logstash на Filebeat. 
 
-*Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
+ /etc/filebeat/filebeat.yml
+```
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+processors:
+  - drop_fields:
+      fields: ["beat", "input_type", "prospector", "input", "host", "agent","ecs"]
+processors:
+  - add_fields:
+      fields:
+        logger: filebeat
+        importe: 'log imported with filebeat'
 
+output.logstash:
+  hosts: ["localhost:5044"]
+
+```
+
+*Приведите скриншот интерфейса Kibana, на котором видны логи Nginx, которые были отправлены через Filebeat.*
+![alt text](https://github.com/thecodebuzz/FileSizePOC/blob/master/TheCodebuzz.png?raw=true)
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.

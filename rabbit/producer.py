@@ -1,10 +1,10 @@
+
 #!/usr/bin/env python
 # coding=utf-8
 import pika
-connection =
-pika.BlockingConnection(pika.ConnectionParameters('192.168.0.141'))
+credentials = pika.PlainCredentials('test', 'test')
+connection = pika.BlockingConnection(pika.ConnectionParameters('machine2',5672,'/',credentials))
 channel = connection.channel()
-channel.queue_declare(queue='hello')
-channel.basic_publish(exchange='', routing_key='hello', body='Hello
-Netology!')
+channel.queue_declare(queue='QueueAVS')
+channel.basic_publish(exchange='', routing_key='QueueAVS', body='You got message 2')
 connection.close()

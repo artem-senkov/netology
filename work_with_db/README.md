@@ -90,7 +90,7 @@ https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-3-1.png
 
 ```sql
 GRANT ALL PRIVILEGES ON *.* TO 'sys_temp'@'%';
-```sql
+```
 
 1.5. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 
@@ -98,8 +98,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'sys_temp'@'%';
 select * from mysql.user WHERE  User = "sys_temp";
 SHOW GRANTS FOR 'sys_temp'@'%';
 ```
-Я создал нескольео userов
-удаляю лишние
+Я создал несколько userов
+удаляю лишних
 DROP USER sys_temp@localhost;
 ![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-5-1.png)
 

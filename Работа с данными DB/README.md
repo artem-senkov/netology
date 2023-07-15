@@ -74,11 +74,27 @@ end
 
 1.2. Создайте учётную запись sys_temp. 
 
+https://www.mysqltutorial.org/mysql-create-user.aspx
+
+CREATE USER 'sys_temp'@'%' IDENTIFIED BY '12345';
+или одной командой создание пользователя и полные права - 
+grant all privileges on *.* to 'username'@'%' identified by 'password'"
+
 1.3. Выполните запрос на получение списка пользователей в базе данных. (скриншот)
+
+
 
 1.4. Дайте все права для пользователя sys_temp. 
 
+GRANT ALL PRIVILEGES ON *.* TO 'sys_temp'@'%';
+
 1.5. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
+
+select * from mysql.user WHERE  User = "sys_temp";
+Я создал нескольео userов
+удаляю лишние
+DROP USER sys_temp@localhost;
+
 
 1.6. Переподключитесь к базе данных от имени sys_temp.
 
@@ -87,8 +103,19 @@ end
 ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 ```
 1.6. По ссылке https://downloads.mysql.com/docs/sakila-db.zip скачайте дамп базы данных.
-
+wget https://downloads.mysql.com/docs/sakila-db.zip
+apt install unzip
+unzip sakila-db.zip
+~/sakila-db/sakila-schema.sql
+~/sakila-db/sakila-data.sql
+cp /*.sql /tmp
 1.7. Восстановите дамп в базу данных.
+mysql -u sys_test -p
+CREATE DATABASE sakila;
+USE sakila;
+SOURCE /tmp/sakila-schema.sql;
+SOURCE /tmp/sakila-data.sql;
+
 
 1.8. При работе в IDE сформируйте ER-диаграмму получившейся базы данных. При работе в командной строке используйте команду для получения всех таблиц базы данных. (скриншот)
 
@@ -100,6 +127,7 @@ ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass
 ```
 Название таблицы | Название первичного ключа
 customer         | customer_id
+
 ```
 
 

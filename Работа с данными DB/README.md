@@ -82,19 +82,25 @@ grant all privileges on *.* to 'username'@'%' identified by 'password'"
 
 1.3. Выполните запрос на получение списка пользователей в базе данных. (скриншот)
 
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-3-1.png)
 
 1.4. Дайте все права для пользователя sys_temp. 
 
+```sql
 GRANT ALL PRIVILEGES ON *.* TO 'sys_temp'@'%';
+```sql
 
 1.5. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 
+```sql
 select * from mysql.user WHERE  User = "sys_temp";
+SHOW GRANTS FOR 'sys_temp'@'%';
+```
 Я создал нескольео userов
 удаляю лишние
 DROP USER sys_temp@localhost;
 
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-5-1.png)
 
 1.6. Переподключитесь к базе данных от имени sys_temp.
 
@@ -103,24 +109,28 @@ DROP USER sys_temp@localhost;
 ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 ```
 1.6. По ссылке https://downloads.mysql.com/docs/sakila-db.zip скачайте дамп базы данных.
+
 wget https://downloads.mysql.com/docs/sakila-db.zip
 apt install unzip
 unzip sakila-db.zip
 ~/sakila-db/sakila-schema.sql
 ~/sakila-db/sakila-data.sql
 cp /*.sql /tmp
+
 1.7. Восстановите дамп в базу данных.
 mysql -u sys_test -p
+
+```sql
 CREATE DATABASE sakila;
 USE sakila;
 SOURCE /tmp/sakila-schema.sql;
 SOURCE /tmp/sakila-data.sql;
-
+```
 
 1.8. При работе в IDE сформируйте ER-диаграмму получившейся базы данных. При работе в командной строке используйте команду для получения всех таблиц базы данных. (скриншот)
 
 *Результатом работы должны быть скриншоты обозначенных заданий, а также простыня со всеми запросами.*
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-8-1.png)
 
 ### Задание 2
 Составьте таблицу, используя любой текстовый редактор или Excel, в которой должно быть два столбца: в первом должны быть названия таблиц восстановленной базы, во втором названия первичных ключей этих таблиц. Пример: (скриншот/текст)
@@ -132,10 +142,12 @@ actor	| actor_id
 ```
 Такой странной работой я заниматься не хочу ) не на того учился, сделяю проще как сисадмин
 
+```sql
 SELECT TABLE_NAME, COLUMN_NAME 
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_SCHEMA='sakila'
 	AND COLUMN_KEY='PRI';
+```
 
  Искал как сделать зтакой запрос 2 часа, но оно того стоило )
 
@@ -158,16 +170,28 @@ rental	rental_id
 staff	staff_id
 store	store_id
 
-
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/2.png)
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
 
 ### Задание 3*
 3.1. Уберите у пользователя sys_temp права на внесение, изменение и удаление данных из базы sakila.
+
+```sql
 SHOW GRANTS FOR 'sys_temp'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON sakila.* TO 'sys_temp'@'%';
 REVOKE INSERT, UPDATE, DELETE ON sakila.* FROM 'sys_temp'@'%';
+```
+
 3.2. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 SHOW GRANTS FOR 'sys_temp'@'%';
+
+![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/3-2-1.png)
+![screen 1]([https://github.com/artem-senkov/netology/blob/main/prometheus/img/](https://github.com/artem-senkov/netology/blob/main/%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20DB/img/3-2-2.png)
+
+
+
 *Результатом работы должны быть скриншоты обозначенных заданий, а также простыня со всеми запросами.*
+
+https://dev.mysql.com/doc/refman/8.0/en/grant.html#grant-database-privileges

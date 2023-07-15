@@ -192,7 +192,7 @@ REVOKE INSERT, UPDATE, DELETE ON sakila.* FROM 'sys_temp'@'%';
 SHOW GRANTS FOR 'sys_temp'@'%';
 
 
-![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-3.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-2.png)
 
 
 

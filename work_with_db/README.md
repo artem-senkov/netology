@@ -111,12 +111,14 @@ ALTER USER 'sys_test'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass
 ```
 1.6. По ссылке https://downloads.mysql.com/docs/sakila-db.zip скачайте дамп базы данных.
 
+```
 wget https://downloads.mysql.com/docs/sakila-db.zip
 apt install unzip
 unzip sakila-db.zip
 ~/sakila-db/sakila-schema.sql
 ~/sakila-db/sakila-data.sql
 cp /*.sql /tmp
+```
 
 1.7. Восстановите дамп в базу данных.
 mysql -u sys_test -p
@@ -151,7 +153,7 @@ WHERE TABLE_SCHEMA='sakila'
 ```
 
  Искал как сделать зтакой запрос 2 часа, но оно того стоило )
-
+```
 actor	actor_id
 address	address_id
 category	category_id
@@ -170,7 +172,7 @@ payment	payment_id
 rental	rental_id
 staff	staff_id
 store	store_id
-
+```
 ![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/2.png)
 
 ## Дополнительные задания (со звёздочкой*)
@@ -178,6 +180,7 @@ store	store_id
 
 ### Задание 3*
 3.1. Уберите у пользователя sys_temp права на внесение, изменение и удаление данных из базы sakila.
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-1.png)
 
 ```sql
 SHOW GRANTS FOR 'sys_temp'@'%';
@@ -188,8 +191,8 @@ REVOKE INSERT, UPDATE, DELETE ON sakila.* FROM 'sys_temp'@'%';
 3.2. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 SHOW GRANTS FOR 'sys_temp'@'%';
 
-![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-1.png)
-![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-2.png)
+
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-3.png)
 
 
 

@@ -82,7 +82,9 @@ grant all privileges on *.* to 'username'@'%' identified by 'password'"
 
 1.3. Выполните запрос на получение списка пользователей в базе данных. (скриншот)
 
-![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-3-1.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-3-1.png)
+
+https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-3-1.png
 
 1.4. Дайте все права для пользователя sys_temp. 
 
@@ -99,8 +101,7 @@ SHOW GRANTS FOR 'sys_temp'@'%';
 Я создал нескольео userов
 удаляю лишние
 DROP USER sys_temp@localhost;
-
-![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-5-1.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-5-1.png)
 
 1.6. Переподключитесь к базе данных от имени sys_temp.
 
@@ -130,7 +131,7 @@ SOURCE /tmp/sakila-data.sql;
 1.8. При работе в IDE сформируйте ER-диаграмму получившейся базы данных. При работе в командной строке используйте команду для получения всех таблиц базы данных. (скриншот)
 
 *Результатом работы должны быть скриншоты обозначенных заданий, а также простыня со всеми запросами.*
-![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/1-8-1.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/1-8-1.png)
 
 ### Задание 2
 Составьте таблицу, используя любой текстовый редактор или Excel, в которой должно быть два столбца: в первом должны быть названия таблиц восстановленной базы, во втором названия первичных ключей этих таблиц. Пример: (скриншот/текст)
@@ -170,7 +171,7 @@ rental	rental_id
 staff	staff_id
 store	store_id
 
-![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/2.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/2.png)
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
@@ -187,8 +188,8 @@ REVOKE INSERT, UPDATE, DELETE ON sakila.* FROM 'sys_temp'@'%';
 3.2. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 SHOW GRANTS FOR 'sys_temp'@'%';
 
-![screen 1](https://github.com/artem-senkov/netology/blob/main/prometheus/img/3-2-1.png)
-![screen 1]([https://github.com/artem-senkov/netology/blob/main/prometheus/img/](https://github.com/artem-senkov/netology/blob/main/%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20DB/img/3-2-2.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-1.png)
+![1](https://github.com/artem-senkov/netology/blob/main/work_with_db/img/3-2-2.png)
 
 
 

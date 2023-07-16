@@ -25,9 +25,9 @@ Kütahya
 Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года **включительно** и стоимость которых превышает 10.00.
 
 ```SQL
-SELECT CAST(payment_date AS DATE), payment_id, amount
+SELECT CAST(payment_date AS DATE) , payment_id, amount
 FROM payment
-WHERE amount > 10 AND payment_date <= '2005-06-18' AND payment_date >= '2005-06-15'
+WHERE amount > 10 AND CAST(payment_date AS DATE) <= '2005-06-18' AND CAST(payment_date AS DATE) >= '2005-06-15'
 ORDER BY payment_date;
 ```
 ```
@@ -37,6 +37,7 @@ ORDER BY payment_date;
 2005-06-17	15313	10.99
 2005-06-17	7017	10.99
 2005-06-17	8272	11.99
+2005-06-18	12888	10.99
 ```
 
 ### Задание 3
@@ -84,6 +85,8 @@ ORDER BY first_name , last_name;
 ### Задание 5*
 
 Выведите Email каждого покупателя, разделив значение Email на две отдельных колонки: в первой колонке должно быть значение, указанное до @, во второй — значение, указанное после @.
+
+
 
 ### Задание 6*
 

@@ -5,6 +5,19 @@
 ### Задание 1
 
 Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
+```SQL
+SELECT DISTINCT district FROM address
+WHERE district  NOT LIKE '% %' AND district LIKE 'K%a';
+```
+```
+Kanagawa
+Kalmykia
+Kaduna
+Karnataka
+Kütahya
+Kerala
+Kitaa
+```
 
 ### Задание 2
 

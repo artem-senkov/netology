@@ -111,9 +111,23 @@ NANCY.THOMAS@sakilacustomer.org	NANCY.THOMAS	sakilacustomer.org
 
 Доработайте запрос из предыдущего задания, скорректируйте значения в новых колонках: первая буква должна быть заглавной, остальные — строчными.
 ```SQL
-
+select email,
+INSERT(LOWER(LEFT (email, POSITION('@' IN email)-1)), 1, 1, LEFT(UPPER (LEFT (email, POSITION('@' IN email)-1)),1)) AS 1UPmail,
+INSERT(LOWER(RIGHT (email, CHAR_LENGTH(email)-POSITION('@' IN email))), 1, 1, LEFT(UPPER (RIGHT (email, CHAR_LENGTH(email)-POSITION('@' IN email))),1)) AS 1UPdomain
+from customer;
 ```
 ```
-
+MARY.SMITH@sakilacustomer.org	Mary.smith	Sakilacustomer.org
+PATRICIA.JOHNSON@sakilacustomer.org	Patricia.johnson	Sakilacustomer.org
+LINDA.WILLIAMS@sakilacustomer.org	Linda.williams	Sakilacustomer.org
+BARBARA.JONES@sakilacustomer.org	Barbara.jones	Sakilacustomer.org
+ELIZABETH.BROWN@sakilacustomer.org	Elizabeth.brown	Sakilacustomer.org
+JENNIFER.DAVIS@sakilacustomer.org	Jennifer.davis	Sakilacustomer.org
+MARIA.MILLER@sakilacustomer.org	Maria.miller	Sakilacustomer.org
+SUSAN.WILSON@sakilacustomer.org	Susan.wilson	Sakilacustomer.org
+MARGARET.MOORE@sakilacustomer.org	Margaret.moore	Sakilacustomer.org
+DOROTHY.TAYLOR@sakilacustomer.org	Dorothy.taylor	Sakilacustomer.org
+LISA.ANDERSON@sakilacustomer.org	Lisa.anderson	Sakilacustomer.org
+NANCY.THOMAS@sakilacustomer.org	Nancy.thomas	Sakilacustomer.org
 ```
 

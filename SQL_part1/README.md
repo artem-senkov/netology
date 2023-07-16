@@ -7,25 +7,47 @@
 Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
 ```SQL
 SELECT DISTINCT district FROM address
-WHERE district  NOT LIKE '% %' AND district LIKE 'K%a';
+WHERE district  NOT LIKE '% %' AND district LIKE 'K%a'
+ORDER BY district;
 ```
 ```
-Kanagawa
-Kalmykia
 Kaduna
+Kalmykia
+Kanagawa
 Karnataka
-Kütahya
 Kerala
 Kitaa
+Kütahya
 ```
 
 ### Задание 2
 
 Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года **включительно** и стоимость которых превышает 10.00.
 
+```SQL
+SELECT CAST(payment_date AS DATE), payment_id, amount
+FROM payment
+WHERE amount > 10 AND payment_date <= '2005-06-18' AND payment_date >= '2005-06-15'
+ORDER BY payment_date;
+```
+```
+2005-06-15	908	10.99
+2005-06-15	14620	10.99
+2005-06-16	13892	10.99
+2005-06-17	15313	10.99
+2005-06-17	7017	10.99
+2005-06-17	8272	11.99
+```
+
 ### Задание 3
 
 Получите последние пять аренд фильмов.
+
+```SQL
+
+```
+```
+```
 
 ### Задание 4
 

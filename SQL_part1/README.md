@@ -86,8 +86,34 @@ ORDER BY first_name , last_name;
 
 Выведите Email каждого покупателя, разделив значение Email на две отдельных колонки: в первой колонке должно быть значение, указанное до @, во второй — значение, указанное после @.
 
-
+```SQL
+select email,
+LEFT (email, POSITION('@' IN email)-1) as ename,
+RIGHT (email, CHAR_LENGTH(email)-POSITION('@' IN email)) as edomain
+from customer;
+```
+```
+MARY.SMITH@sakilacustomer.org	MARY.SMITH	sakilacustomer.org
+PATRICIA.JOHNSON@sakilacustomer.org	PATRICIA.JOHNSON	sakilacustomer.org
+LINDA.WILLIAMS@sakilacustomer.org	LINDA.WILLIAMS	sakilacustomer.org
+BARBARA.JONES@sakilacustomer.org	BARBARA.JONES	sakilacustomer.org
+ELIZABETH.BROWN@sakilacustomer.org	ELIZABETH.BROWN	sakilacustomer.org
+JENNIFER.DAVIS@sakilacustomer.org	JENNIFER.DAVIS	sakilacustomer.org
+MARIA.MILLER@sakilacustomer.org	MARIA.MILLER	sakilacustomer.org
+SUSAN.WILSON@sakilacustomer.org	SUSAN.WILSON	sakilacustomer.org
+MARGARET.MOORE@sakilacustomer.org	MARGARET.MOORE	sakilacustomer.org
+DOROTHY.TAYLOR@sakilacustomer.org	DOROTHY.TAYLOR	sakilacustomer.org
+LISA.ANDERSON@sakilacustomer.org	LISA.ANDERSON	sakilacustomer.org
+NANCY.THOMAS@sakilacustomer.org	NANCY.THOMAS	sakilacustomer.org
+```
 
 ### Задание 6*
 
 Доработайте запрос из предыдущего задания, скорректируйте значения в новых колонках: первая буква должна быть заглавной, остальные — строчными.
+```SQL
+
+```
+```
+
+```
+

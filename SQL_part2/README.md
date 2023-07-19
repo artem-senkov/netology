@@ -11,10 +11,33 @@
 - город нахождения магазина;
 - количество пользователей, закреплённых в этом магазине.
 
+```SQL
+SELECT st.store_id, CONCAT(stf.last_name, ' ', stf.first_name) AS manager, cy.city, COUNT(customer_id) as Nom_of_customers
+FROM customer c
+JOIN store st ON c.store_id = st.store_id
+JOIN address a ON a.address_id = st.address_id
+JOIN city cy ON cy.city_id = a.city_id
+JOIN staff stf ON stf.staff_id  = st.manager_staff_id
+GROUP BY st.store_id
+HAVING COUNT(c.customer_id) > 300;
+```
+
+```
+1	Hillyer Mike	Lethbridge	326
+```
+
 ### Задание 2
 
 Получите количество фильмов, продолжительность которых больше средней продолжительности всех фильмов.
+```SQL
+SELECT COUNT(film_id)
+FROM film
+WHERE(length) > (SELECT SUM(length)/COUNT(film_id) from film);
+```
+489
+```
 
+```
 ### Задание 3
 
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.

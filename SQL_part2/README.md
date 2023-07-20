@@ -34,14 +34,24 @@ SELECT COUNT(film_id)
 FROM film
 WHERE(length) > (SELECT SUM(length)/COUNT(film_id) from film);
 ```
-489
-```
 
+```
+489
 ```
 ### Задание 3
 
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
+```SQL
+-- Находим месяц с макс доходом
+SELECT MONTH(payment_date) bestmonth, COUNT(payment_id) nom_of_rent, SUM(amount) as INCOME
+FROM payment
+GROUP BY MONTH(payment_date)
+HAVING SUM(amount) = (SELECT MAX(income1) from(SELECT MONTH(payment_date) month1, SUM(amount) income1 FROM payment GROUP BY MONTH(payment_date)) AVM)
+```
 
+```
+7	6709	28368.91
+```
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
@@ -49,6 +59,8 @@ WHERE(length) > (SELECT SUM(length)/COUNT(film_id) from film);
 ### Задание 4*
 
 Посчитайте количество продаж, выполненных каждым продавцом. Добавьте вычисляемую колонку «Премия». Если количество продаж превышает 8000, то значение в колонке будет «Да», иначе должно быть значение «Нет».
+
+
 
 ### Задание 5*
 

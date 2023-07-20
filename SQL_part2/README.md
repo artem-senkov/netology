@@ -96,6 +96,7 @@ WHERE f.film_id NOT IN (SELECT i.film_id r_f_id from rental r
 JOIN inventory i ON i.inventory_id = r.inventory_id
 JOIN film f ON f.film_id = i.film_id);
 ```
+```
 14	ALICE FANTASIA
 33	APOLLO TEEN
 36	ARGONAUTS TOWN
@@ -140,4 +141,3 @@ JOIN film f ON f.film_id = i.film_id);
 955	WALLS ARTIST
 ```
 
-```

@@ -42,15 +42,15 @@ WHERE(length) > (SELECT SUM(length)/COUNT(film_id) from film);
 
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 ```SQL
--- Находим месяц с макс доходом
-SELECT MONTH(payment_date) bestmonth, COUNT(payment_id) nom_of_rent, SUM(amount) as INCOME
+-- Находим год и месяц с макс доходом
+SELECT YEAR(payment_date) bestyear, MONTH(payment_date) bestmonth, COUNT(payment_id) nom_of_rent, SUM(amount) as INCOME
 FROM payment
-GROUP BY MONTH(payment_date)
-HAVING SUM(amount) = (SELECT MAX(income1) from(SELECT MONTH(payment_date) month1, SUM(amount) income1 FROM payment GROUP BY MONTH(payment_date)) AVM)
+GROUP BY YEAR(payment_date), MONTH(payment_date)
+HAVING SUM(amount) = (SELECT MAX(income1) from(SELECT YEAR(payment_date) year1, MONTH(payment_date) month1, SUM(amount) income1 FROM payment GROUP BY YEAR(payment_date), MONTH(payment_date)) AVM)
 ```
 
 ```
-7	6709	28368.91
+2005	7	6709	28368.91
 ```
 
 ## Дополнительные задания (со звёздочкой*)

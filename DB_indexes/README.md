@@ -63,6 +63,8 @@ HARRIS HELEN	4.99
                             -> Single-row covering index lookup on i using PRIMARY (inventory_id=r.inventory_id)  (cost=250e-6 rows=1) (actual time=378e-6..463e-6 rows=1 loops=642000)
 
 ```
+Узкое место 
+Sort: c.customer_id, f.title  (actual time=9164..9448 rows=642000 loops=1)
 убрал film так как данные из этой таблицы не нужны для результата, время сильно улучшилось.
 
 ```

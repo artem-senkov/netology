@@ -123,3 +123,7 @@ DROP INDEX rental_date_id ON rental;
 Самостоятельно изучите, какие типы индексов используются в PostgreSQL. Перечислите те индексы, которые используются в PostgreSQL, а в MySQL — нет.
 
 *Приведите ответ в свободной форме.*
+
+https://habr.com/ru/articles/102785/
+
+Bitmap index, Reverse index, Partial index, Function based index

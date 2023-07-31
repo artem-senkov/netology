@@ -113,6 +113,44 @@ CREATE INDEX rental_date_id ON rental(rental_date);
 DROP INDEX payment_date_id ON payment;
 DROP INDEX rental_date_id ON rental;
 
+Убрал оконную функцию
+
+```
+EXPLAIN ANALYZE                           
+select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount)
+from payment p, rental r, customer c, inventory i
+where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and r.customer_id = c.customer_id and i.inventory_id = r.inventory_id
+GROUP BY c.customer_id
+```
+
+-- индексировал даты и поменял условия
+
+```
+CREATE INDEX payment_date_id ON payment(payment_date);
+
+EXPLAIN ANALYZE
+select distinct concat(c.last_name, ' ', c.first_name), sum(p.amount)
+from payment p, rental r, customer c, inventory i
+where p.payment_date >= '2005-07-30' and p.payment_date < DATE_ADD('2005-07-30', INTERVAL 1 DAY) and p.payment_date = r.rental_date and r.customer_id = c.customer_id and i.inventory_id = r.inventory_id
+GROUP BY c.customer_id
+```
+```
+-> Limit: 200 row(s)  (actual time=16.9..17 rows=200 loops=1)
+    -> Sort with duplicate removal: `concat(c.last_name, ' ', c.first_name)`, `sum(p.amount)`  (actual time=16.9..16.9 rows=200 loops=1)
+        -> Table scan on <temporary>  (actual time=16.2..16.3 rows=391 loops=1)
+            -> Aggregate using temporary table  (actual time=16.2..16.2 rows=391 loops=1)
+                -> Nested loop inner join  (cost=798 rows=645) (actual time=0.0844..14.1 rows=642 loops=1)
+                    -> Nested loop inner join  (cost=575 rows=645) (actual time=0.0775..11 rows=642 loops=1)
+                        -> Nested loop inner join  (cost=349 rows=634) (actual time=0.0498..4.16 rows=634 loops=1)
+                            -> Filter: ((r.rental_date >= TIMESTAMP'2005-07-30 00:00:00') and (r.rental_date < <cache>(('2005-07-30' + interval 1 day))))  (cost=127 rows=634) (actual time=0.0345..1.83 rows=634 loops=1)
+                                -> Covering index range scan on r using rental_date over ('2005-07-30 00:00:00' <= rental_date < '2005-07-31 00:00:00')  (cost=127 rows=634) (actual time=0.0311..1.24 rows=634 loops=1)
+                            -> Single-row index lookup on c using PRIMARY (customer_id=r.customer_id)  (cost=0.25 rows=1) (actual time=0.0031..0.00317 rows=1 loops=634)
+                        -> Index lookup on p using payment_date_id (payment_date=r.rental_date)  (cost=0.254 rows=1.02) (actual time=0.00814..0.00976 rows=1.01 loops=634)
+                    -> Single-row covering index lookup on i using PRIMARY (inventory_id=r.inventory_id)  (cost=0.246 rows=1) (actual time=0.00422..0.00429 rows=1 loops=642)
+
+```
+
+Время уменьшилось еще в три раза (actual time=16.9..17
 
 
 ## Дополнительные задания (со звёздочкой*)

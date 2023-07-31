@@ -36,11 +36,12 @@ datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
----
-
+```
+```
 sudo cat /var/log/mysqld.log
 A temporary password is generated for root@localhost: FX>j3Xa%luw/
 A temporary password is generated for root@localhost: Az*2K7tiGPKA
+```
 ```
 sudo systemctl start mysqld
 mysql -u root -p

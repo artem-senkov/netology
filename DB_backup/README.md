@@ -11,9 +11,21 @@
 
 1.1. Необходимо восстанавливать данные в полном объёме за предыдущий день.
 
+Я бы предложил следующую схему.
+Еженедельно - full backup
+Ежедневно - differental backup
+Время выполнения зависит от графика работы например ВС - 01-00 am
+
 1.2. Необходимо восстанавливать данные за час до предполагаемой поломки.
+Еженедельно - full backup
+Ежедневно - differental backup
+Ежечастно - incremenental 
+Время выполнения зависит от графика работы например ВС - 01-00 am
 
 1.3.* Возможен ли кейс, когда при поломке базы происходило моментальное переключение на работающую или починенную базу данных.
+
+Возможен если создать схему 
+Возможно с помощью репликации ACTIVE MASTER -SLAVE и при выходе из строя MASTER автоматически переназначать роль мастера на SLAVE
 
 *Приведите ответ в свободной форме.*
 
@@ -23,15 +35,55 @@
 
 2.1. С помощью официальной документации приведите пример команды резервирования данных и восстановления БД (pgdump/pgrestore).
 
+[https://postgrespro.ru](https://postgrespro.ru/docs/postgresql/15/app-pgdump?lang=en)
+[https://selectel.ru/blog/postgresql-backup-tools/](https://selectel.ru/blog/postgresql-backup-tools/)
+
+~~~
+Резервное копирование и восстановление одной базы
+pg_dump mydb > /backup/mydb.dump
+pg_restore -d mydb /backup/mydb.dump
+
+Полностью все данные можно забэкапить так
+pg_dumpall > /backup/instance.bak
+
+~~~
+
 2.1.* Возможно ли автоматизировать этот процесс? Если да, то как?
 
 *Приведите ответ в свободной форме.*
 
+Скрипт для автобэкапа базы и поддержания глубины бэкапа 61 день
+```
+#!/bin/sh
+
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+PGPASSWORD=some_password
+export PGPASSWORD
+pathB=/mnt/backup
+dbUser=dbadmin
+database=zabbix
+
+
+find $pathB \( -name "*-1[^5].*" -o -name "*-[023]?.*" \) -ctime +61 -delete
+pg_dump -U $dbUser $database | gzip > $pathB/pgsql_$(date "+%Y-%m-%d").sql.gz
+
+
+unset PGPASSWORD
+```
+
+Добавляем в планировщик
+```
+# crontab -e
+3 0 * * * /etc/scripts/pgsql_dump.sh # postgres pg dump
+```
 ---
 
 ### Задание 3. MySQL
 
 3.1. С помощью официальной документации приведите пример команды инкрементного резервного копирования базы данных MySQL. 
+
+
 
 3.1.* В каких случаях использование реплики будет давать преимущество по сравнению с обычным резервным копированием?
 

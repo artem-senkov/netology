@@ -86,12 +86,67 @@ unset PGPASSWORD
 ### Задание 3. MySQL
 
 3.1. С помощью официальной документации приведите пример команды инкрементного резервного копирования базы данных MySQL. 
+На бесплатной версии нужно включить binary log
+
+```
+server-id        = 1
+expire_logs_days = 10
+binlog_format    = row
+log_bin          = /var/log/mysql/mysql-bin
+```
+
+Сделать полный бэкап
+
+А после бэкапить bin-log файлы.
+
+Например таким скриптом
+```
+#!/bin/sh
+
+# set up the date variable
+NOW=$(date +%Y%m%d%H%M%S)
+BINLOG_BACKUP=${NOW}_binlog.tar.gz
+
+# set up the database credentials
+DB_USER=root
+DB_PASSWORD=root_password
+
+# binary log files directory path
+BINLOGS_PATH=/var/log/mysql/
+
+# flush the current log and start writing to a new binary log file
+mysql -u$DB_USER -p$DB_PASSWORD -E --execute='FLUSH BINARY LOGS;' mysql
+
+# get a list of all binary log files
+BINLOGS=$(mysql -u$DB_USER -p$DB_PASSWORD -E --execute='SHOW BINARY LOGS;' mysql | grep Log_name | sed -e 's/Log_name://g' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+# get the most recent binary log file
+BINLOG_CURRENT=`echo "${BINLOGS}" | tail -n -1`
+
+# get list of binary logs to be backed up (everything except the most recent one)
+BINLOGS_FOR_BACKUP=`echo "${BINLOGS}" | head -n -1`
+
+# create a list of the full paths to the binary logs to be backed up
+BINLOGS_FULL_PATH=`echo "${BINLOGS_FOR_BACKUP}" | xargs -I % echo $BINLOGS_PATH%`
+
+# compress the list of binary logs to be backed up into an archive in the backup location
+tar -czvf /sites/backups/$BINLOG_BACKUP $BINLOGS_FULL_PATH
+
+# delete the binary logs that have been backed up
+echo $BINLOG_CURRENT | xargs -I % mysql -u$DB_USER -p$DB_PASSWORD -E --execute='PURGE BINARY LOGS TO "%";' mysql
+
+```
+
+Есть сторонние программы которые работают проще для пользователя
+[xtra backup](https://docs.percona.com/percona-xtrabackup/2.4/index.html)
 
 
 
 3.1.* В каких случаях использование реплики будет давать преимущество по сравнению с обычным резервным копированием?
 
 *Приведите ответ в свободной форме.*
+
+***Когда нужно быстро переключиться на резервный сервер БД и продолжить работу лучше использовать репликвцию, во многих сценариях может не быть времени на восстановление из бэкапа и простои невозможны. Но в целом это разные инструменты и использование реплики не отменяет резервное копирование.***
 
 ---
 

@@ -51,7 +51,7 @@ select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 select count(*) from pg_stat_replication;
 ```
 
-Процесс выполнения:
+##### Мой процесс выполнения:
 
 [инструкция](https://cloud.yandex.ru/docs/managed-postgresql/operations/connect?from=int-console-help-center-or-nav)
 windows powershell
@@ -65,7 +65,7 @@ mkdir $HOME\.postgresql; curl.exe -o $HOME\.postgresql\root.crt https://storage.
 
 Установить переменные окружения WINDOWS
 ```
-$Env:PGSSLMODE="verify-full"; $Env:PGTARGETSESSIONATTRS="read-write"
+$Env:PGSSLMODE="verify-full"; $Env:PGTARGETSESSIONATTRS="read-write"; $env:PGSSLROOTCERT="$HOME\.postgresql\root.crt"
 ```
 
 Подключение
@@ -80,7 +80,11 @@ $Env:PGSSLMODE="verify-full"; $Env:PGTARGETSESSIONATTRS="read-write"
 Проверка
 ```
 SELECT version();
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+select count(*) from pg_stat_replication;
 ```
+
+
 ### Проверьте работоспособность репликации в кластере
 
 * Создайте таблицу и вставьте одну-две строки.
@@ -114,6 +118,20 @@ select * from test_table;
 *1) Созданной базы данных;*
 *2) Результата вывода команды на реплике ```select * from test_table;```.*
 
+##### Мой процесс выполнения:
+```
+$Env:PGTARGETSESSIONATTRS="read-only"
+
+PS C:\Program Files\PostgreSQL\15\bin> & "C:\Program Files\PostgreSQL\15\bin\psql.exe" `
+>> --host=rc1a-t1e9k9x5hji0k6f3.mdb.yandexcloud.net `
+>> --port=6432 `
+>> --username=artem `
+>> testdb1
+
+select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
+select status from pg_stat_wal_receiver;
+select * from test_table;
+```
 
 
 ### Задание 2*

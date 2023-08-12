@@ -51,6 +51,36 @@ select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 select count(*) from pg_stat_replication;
 ```
 
+Процесс выполнения:
+
+[инструкция](https://cloud.yandex.ru/docs/managed-postgresql/operations/connect?from=int-console-help-center-or-nav)
+windows powershell
+```powershell
+mkdir $HOME\.postgresql; curl.exe -o $HOME\.postgresql\root.crt https://storage.yandexcloud.net/cloud-certs/CA.pem
+```
+
+Сертификат будет сохранен в файле $HOME\.postgresql\root.crt.
+
+Перед подключением установите PostgreSQL для Windows той же версии, которая используется в кластере. Выберите только установку Command Line Tools.
+
+Установить переменные окружения WINDOWS
+```
+$Env:PGSSLMODE="verify-full"; $Env:PGTARGETSESSIONATTRS="read-write"
+```
+
+Подключение
+```
+& "C:\Program Files\PostgreSQL\<версия>\bin\psql.exe" `
+  --host=c-<идентификатор кластера>.rw.mdb.yandexcloud.net `
+  --port=6432 `
+  --username<имя пользователя> `
+  <имя БД>
+```
+
+Проверка
+```
+SELECT version();
+```
 ### Проверьте работоспособность репликации в кластере
 
 * Создайте таблицу и вставьте одну-две строки.

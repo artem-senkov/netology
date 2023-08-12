@@ -71,7 +71,7 @@ select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 select count(*) from pg_stat_replication;
 ```
 
-
+![img1](https://github.com/artem-senkov/netology/blob/main/DM_cloud/img/dbclud1-1.png)
 
 ### Проверьте работоспособность репликации в кластере
 
@@ -120,7 +120,7 @@ select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 select status from pg_stat_wal_receiver;
 select * from test_table;
 ```
-
+![img1](https://github.com/artem-senkov/netology/blob/main/DM_cloud/img/dbclud1-2.png)
 
 ### Задание 2*
 

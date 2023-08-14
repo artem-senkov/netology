@@ -73,8 +73,24 @@ Nmap done: 1 IP address (1 host up) scanned in 19.13 seconds
 Ответьте на следующие вопросы:
 
 - Чем отличаются эти режимы сканирования с точки зрения сетевого трафика?
-- Как отвечает сервер?
 
-*Приведите ответ в свободной форме.*
+SYN и FIN, XMAS отличается флагами в пакете TCP
+
+XMAX -Flags: 0x029 (FIN, PSH, URG)
+FIN -Flags: 0x001 (FIN)
+SYN Flags: 0x002 (SYN)
+UDP использует транспорьный протокол UDP
+
+[SYN -s](https://nmap.org/book/synscan.html)
+[-sX -sF](https://nmap.org/book/scan-methods-null-fin-xmas-scan.html)
+[UDP -sU](https://nmap.org/book/scan-methods-udp-scan.html)
+
+
+- Как отвечает сервер?
+При сканировании SYN сервер пытается устанвить сессию или отыечает RST если закрыт
+При сканировании XMAX  и FIN сервер не отвечает если порт открыт, RST если закрыт
+Ксли при сканировании по UDP сервер отвечает все кроме ICMP port unreachable error (type 3, code 3) то порт либо открыт либо filtred
+
+
 
 

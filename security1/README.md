@@ -20,6 +20,7 @@
 
 - Какие сетевые службы в ней разрешены?
 
+```
 C:\WINDOWS\system32>nmap -sV 192.168.24.3
 Starting Nmap 7.94 ( https://nmap.org ) at 2023-08-14 21:49 RTZ 2 (чшьр)
 Nmap scan report for 192.168.24.3
@@ -54,8 +55,10 @@ Service Info: Hosts:  metasploitable.localdomain, irc.Metasploitable.LAN; OSs: U
 
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 19.13 seconds
+```
 
 - Какие уязвимости были вами обнаружены? (список со ссылками: достаточно трёх уязвимостей)
+- 
 [ProFTPd IAC 1.3.x - Remote Command Execution](https://www.exploit-db.com/exploits/15449)
 [OpenSSH < 6.6 SFTP - Command Execution](https://www.exploit-db.com/exploits/45001)
 [Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory Leak](https://www.exploit-db.com/exploits/42745)

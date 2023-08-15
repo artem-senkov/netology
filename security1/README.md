@@ -76,14 +76,22 @@ Nmap done: 1 IP address (1 host up) scanned in 19.13 seconds
 
 SYN и FIN, XMAS отличается флагами в пакете TCP
 
-XMAX -Flags: 0x029 (FIN, PSH, URG)
-FIN -Flags: 0x001 (FIN)
 SYN Flags: 0x002 (SYN)
+
+FIN -Flags: 0x001 (FIN)
+
+XMAX -Flags: 0x029 (FIN, PSH, URG)
+
 UDP использует транспорьный протокол UDP
 
+
+
 [SYN -s](https://nmap.org/book/synscan.html)
+
 [-sX -sF](https://nmap.org/book/scan-methods-null-fin-xmas-scan.html)
+
 [UDP -sU](https://nmap.org/book/scan-methods-udp-scan.html)
+
 
 
 - Как отвечает сервер?

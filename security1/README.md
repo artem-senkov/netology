@@ -102,13 +102,17 @@ UDP использует транспорьный протокол UDP
 
 
 - Как отвечает сервер?
+- 
 При сканировании SYN сервер пытается устанвить сессию или отвечает RST если порт закрыт
+
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/syn.png)
 
 При сканировании XMAX  и FIN сервер не отвечает если порт открыт, RST если закрыт
+
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/fin.png)
 
 Ксли при сканировании по UDP сервер отвечает все кроме ICMP port unreachable error (type 3, code 3) то порт либо открыт либо filtred
+
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/udp.png)
 
 

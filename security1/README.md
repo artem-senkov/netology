@@ -60,9 +60,13 @@ Nmap done: 1 IP address (1 host up) scanned in 19.13 seconds
 - Какие уязвимости были вами обнаружены? (список со ссылками: достаточно трёх уязвимостей)
 - 
 [ProFTPd IAC 1.3.x - Remote Command Execution](https://www.exploit-db.com/exploits/15449)
+
 [OpenSSH < 6.6 SFTP - Command Execution](https://www.exploit-db.com/exploits/45001)
+
 [Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory Leak](https://www.exploit-db.com/exploits/42745)
+
 [PostgreSQL 8.2/8.3/8.4 - UDF for Command Execution](https://www.exploit-db.com/exploits/7855)
+
 
 
 *Приведите ответ в свободной форме.*  
@@ -100,8 +104,10 @@ UDP использует транспорьный протокол UDP
 - Как отвечает сервер?
 При сканировании SYN сервер пытается устанвить сессию или отвечает RST если порт закрыт
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/syn.png)
+
 При сканировании XMAX  и FIN сервер не отвечает если порт открыт, RST если закрыт
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/fin.png)
+
 Ксли при сканировании по UDP сервер отвечает все кроме ICMP port unreachable error (type 3, code 3) то порт либо открыт либо filtred
 ![img](https://github.com/artem-senkov/netology/blob/main/security1/img/udp.png)
 

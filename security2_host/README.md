@@ -96,6 +96,29 @@ root@debian11NET1:/home/cryptouser# ls
 Access-Your-Private-Data.desktop  README.txt
 root@debian11NET1:/home/cryptouser#
 ```
+**В debian 11 Каталог при логоне не подключается это баг нужно выполнить keyctl link @u @s
+и затем ecryptfs-mount-private**
+
+```
+cryptouser@debian11NET1:/etc/pam.d$ keyctl link @u @s
+cryptouser@debian11NET1:/etc/pam.d$ ecryptfs-mount-private
+cryptouser@debian11NET1:/etc/pam.d$ cd ~
+cryptouser@debian11NET1:~$ ls
+ Desktop     Downloads   Pictures   Templates     'Untitled 1.txt'
+ Documents   Music       Public    'test folder'   Videos
+cryptouser@debian11NET1:~$ df -T
+Filesystem                Type     1K-blocks    Used Available Use% Mounted on
+udev                      devtmpfs    983856       0    983856   0% /dev
+tmpfs                     tmpfs       201824    1192    200632   1% /run
+/dev/sda1                 ext4      19480400 4638312  13827204  26% /
+tmpfs                     tmpfs      1009112       4   1009108   1% /dev/shm
+tmpfs                     tmpfs         5120       4      5116   1% /run/lock
+tmpfs                     tmpfs       201820    3360    198460   2% /run/user/1000
+/home/cryptouser/.Private ecryptfs  19480400 4638312  13827204  26% /home/cryptouser
+cryptouser@debian11NET1:~$
+```
+
+**Теперь все подключено.**
 
 
 

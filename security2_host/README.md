@@ -180,4 +180,91 @@ root@debian11NET1:~/.secret# ls
 
 *В качестве ответа пришлите снимки экрана с поэтапным выполнением задания.*
 
+Установка
+```
+sudo apt install apparmor-profiles apparmor-utils
+apparmor-profiles-extra
+```
+```
+root@debian11NET1:~/.secret# sudo apparmor_status
+apparmor module is loaded.
+35 profiles are loaded.
+18 profiles are in enforce mode.
+   /usr/bin/evince
+   /usr/bin/evince-previewer
+   /usr/bin/evince-previewer//sanitized_helper
+   /usr/bin/evince-thumbnailer
+   /usr/bin/evince//sanitized_helper
+   /usr/bin/man
+   /usr/lib/cups/backend/cups-pdf
+   /usr/sbin/cups-browsed
+   /usr/sbin/cupsd
+   /usr/sbin/cupsd//third_party
+   libreoffice-senddoc
+   libreoffice-soffice//gpg
+   libreoffice-xpdfimport
+   lsb_release
+   man_filter
+   man_groff
+   nvidia_modprobe
+   nvidia_modprobe//kmod
+17 profiles are in complain mode.
+   /usr/sbin/dnsmasq
+   /usr/sbin/dnsmasq//libvirt_leaseshelper
+   avahi-daemon
+   identd
+   klogd
+   libreoffice-oopslash
+   libreoffice-soffice
+   mdnsd
+   nmbd
+   nscd
+   ping
+   smbd
+   smbldap-useradd
+   smbldap-useradd///etc/init.d/nscd
+   syslog-ng
+   syslogd
+   traceroute
+3 processes have profiles defined.
+3 processes are in enforce mode.
+   /usr/sbin/cups-browsed (483)
+   /usr/sbin/cupsd (462)
+   /usr/lib/cups/notifier/dbus (481) /usr/sbin/cupsd
+0 processes are in complain mode.
+0 processes are unconfined but have a profile defined.
+```
+Проверяем работу защиты
 
+```
+root@debian11NET1:~/.secret# sudo man 8.8.8.8 -c 4
+man: socket: Operation not permitted
+root@debian11NET1:~/.secret# ping 8.8.8.8 -c2
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=82.8 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=64.4 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 64.401/73.619/82.838/9.218 ms
+root@debian11NET1:~/.secret# man ping
+man: socket: Operation not permitted
+root@debian11NET1:~/.secret# aa-complain /usr/bin/man
+Setting /usr/bin/man to complain mode.
+root@debian11NET1:~/.secret# man 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=84.8 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=66.1 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=57.4 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 57.443/69.454/84.834/11.433 ms
+root@debian11NET1:~/.secret# aa-enforce /usr/bin/man
+Setting /usr/bin/man to enforce mode.
+root@debian11NET1:~/.secret# man 8.8.8.8
+man: socket: Operation not permitted
+root@debian11NET1:~/.secret#
+
+```
+Защита работает и блокирует подмененный man

@@ -44,6 +44,9 @@ Aug 20 18:15:23 debian11NET1 systemd[1]: Started Suricata IDS/IDP daemon.
 - установите **Fail2Ban**.
 
 ```
+sudo apt update
+sudo apt install fail2ban
+systemctl status fail2ban.service
 ```
 
 2. Подготовка системы злоумышленника: установите **nmap** и **thc-hydra** либо скачайте и установите **Kali linux**.
@@ -148,6 +151,81 @@ artem@debian11NET1:~$ sudo tail -f /var/log/suricata/fast.log
 
 Дополнительная информация по **Fail2Ban**:https://putty.org.ru/articles/fail2ban-ssh.html.
 
+Настроим fail2ban
+```
+sudo nano /etc/fail2ban/jail.conf
+```
 
+**атакуем хост перебором паролей**
+
+hydra -L users.txt -P pass.txt 192.168.124.137 ssh
+
+```
+Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-08-20 13:15:23
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 255 login tries (l:15/p:17), ~16 tries per task
+[DATA] attacking ssh://192.168.124.137:22/
+[ERROR] all children were disabled due too many connection errors
+0 of 1 target completed, 0 valid password found
+[INFO] Writing restore file because 2 server scans could not be completed
+[ERROR] 1 target was disabled because of too many errors
+[ERROR] 1 targets did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-08-20 13:16:01
+
+┌──(kali㉿kali)-[~]
+└─$ ssh 192.168.124.137
+ssh: connect to host 192.168.124.137 port 22: Connection refused
+```
+
+**Защита работакт. Атакующего забанили (**
+```
+2023-08-20 20:15:24,563 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
+2023-08-20 20:15:24,564 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
+2023-08-20 20:15:24,566 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
+2023-08-20 20:15:24,567 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
+2023-08-20 20:15:24,570 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
+2023-08-20 20:15:24,596 fail2ban.actions        [3363]: NOTICE  [sshd] Ban 192.1                                                                                                                                   68.124.72
+```
+**f2b добавил правило в iptables**
+```
+artem@debian11NET1:~$ sudo iptables -S | grep f2b
+-N f2b-sshd
+-A INPUT -p tcp -m multiport --dports 22 -j f2b-sshd
+-A f2b-sshd -s 192.168.124.72/32 -j REJECT --reject-with icmp-port-unreachable
+-A f2b-sshd -j RETURN
+
+```
+
+**Отkлючим fail2ban и повторим атаку**
+
+```
+sudo tail -f /var/log/auth.log
+
+Aug 20 20:31:18 debian11NET1 sshd[4195]: Failed password for invalid user qef from 192.168.124.72 port 41958 ssh2
+Aug 20 20:31:18 debian11NET1 sshd[4195]: Connection closed by invalid user qef 192.168.124.72 port 41958 [preauth]
+Aug 20 20:31:18 debian11NET1 sshd[4115]: Connection closed by invalid user kali 192.168.124.72 port 41856 [preauth]
+Aug 20 20:31:18 debian11NET1 sshd[4115]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.124.72
+Aug 20 20:31:18 debian11NET1 sshd[4127]: Connection closed by invalid user kali 192.168.124.72 port 41874 [preauth]
+Aug 20 20:31:18 debian11NET1 sshd[4127]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.124.72
+Aug 20 20:31:18 debian11NET1 sshd[4125]: Connection closed by invalid user kali 192.168.124.72 port 41866 [preauth]
+Aug 20 20:31:18 debian11NET1 sshd[4125]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.124.72
+```
+
+**Пароль подобран**
+```
+┌──(kali㉿kali)-[~]
+└─$ hydra -L users.txt -P pass.txt 192.168.124.137 ssh
+Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-08-20 13:30:27
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 255 login tries (l:15/p:17), ~16 tries per task
+[DATA] attacking ssh://192.168.124.137:22/
+[22][ssh] host: 192.168.124.137   login: cryptouser   password: 12345
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-08-20 13:31:19
+```
 
 *В качестве ответа пришлите события, которые попали в логи Suricata и Fail2Ban, прокомментируйте результат.*

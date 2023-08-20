@@ -179,7 +179,7 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-08-20 13:16:
 ssh: connect to host 192.168.124.137 port 22: Connection refused
 ```
 
-**Защита работакт. Атакующего забанили (**
+**Защита работаeт. Атакующего забанили (**
 ```
 2023-08-20 20:15:24,563 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24
 2023-08-20 20:15:24,564 fail2ban.filter         [3363]: INFO    [sshd] Found 192                                                                                                                                   .168.124.72 - 2023-08-20 20:15:24

@@ -15,7 +15,7 @@ sudo apt install suricata
 sudo suricata-update
 sudo systemctl status suricata
 ```
-**Нужно внести настройки интерфейса для мониторинга в конфиг**
+**Сервис не стартует Нужно внести настройки интерфейса для мониторинга в конфиг**
 
 ```
 artem@debian11NET1:~$ sudo nano /etc/suricata/suricata.yaml
@@ -116,11 +116,11 @@ Nmap done: 1 IP address (1 host up) scanned in 1.44 seconds
 
 *В качестве ответа пришлите события, которые попали в логи Suricata и Fail2Ban, прокомментируйте результат.*
 
-Сканирование в лог не попало, нужно настраивать правила Suricata
+**Сканирование в лог не попало, нужно настраивать правила Suricata**
 
 sudo nano /etc/suricata/rules/suricata.rules
 
-В результате получаем предупреждение:
+**В результате , после настройки и перезапуска сервиса, получаем предупреждение в логе:**
 ```
 artem@debian11NET1:~$ sudo tail -f /var/log/suricata/fast.log
 08/20/2023-19:47:08.407349  [**] [1:2009582:3] ET SCAN NMAP -sS window 1024 [**] [Classification: Attempted Information Leak] [Priority: 2] {TCP} 192.168.124.72:64967 -> 192.168.124.137:554
